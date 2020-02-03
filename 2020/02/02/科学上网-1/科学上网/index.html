@@ -6,15 +6,17 @@
   <meta name="keywords" content="">
   <meta name="description" content="科学上网 | linqinghuang">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="mAP的计算方式什么是mAP?mAP(mean average precision)平均精度均值，是用来衡量目标检测算法的精确度的一个指标。 真正例、真负例、假正例、假负例真假对应英语true和false、正例和负例则对应英语positive和negative。真假用于描述目标检测结果的正确与否，正例和负例则用于描述预测倾向，即“认为是”和“认为不是”。 举一个实际的例子">
+<meta name="description" content="科学上网1 什么是科学上网在中国大陆从事计算机行业的，应该对这个概念不会陌生。多少时间浪费在这个上面。这个主要是GFW技术落后以及一些政策方面的原因，无法精准过滤不合法规的内容，从而造成大范围无害中立的内容被屏蔽。科学上网则是用一些方法规避过滤，访问到真正的互联网，用于学习先进科学知识的手段。 2 攻防历史2.1 史前时代早期的过滤手段大概是DNS投毒和IP黑名单。本人网龄不算太长，这个阶段具体是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mAP的计算方式">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;06&#x2F;mAP&#x2F;index.html">
+<meta property="og:title" content="科学上网">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;02&#x2F;02&#x2F;%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-1&#x2F;%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91&#x2F;index.html">
 <meta property="og:site_name" content="linqinghuang">
-<meta property="og:description" content="mAP的计算方式什么是mAP?mAP(mean average precision)平均精度均值，是用来衡量目标检测算法的精确度的一个指标。 真正例、真负例、假正例、假负例真假对应英语true和false、正例和负例则对应英语positive和negative。真假用于描述目标检测结果的正确与否，正例和负例则用于描述预测倾向，即“认为是”和“认为不是”。 举一个实际的例子">
+<meta property="og:description" content="科学上网1 什么是科学上网在中国大陆从事计算机行业的，应该对这个概念不会陌生。多少时间浪费在这个上面。这个主要是GFW技术落后以及一些政策方面的原因，无法精准过滤不合法规的内容，从而造成大范围无害中立的内容被屏蔽。科学上网则是用一些方法规避过滤，访问到真正的互联网，用于学习先进科学知识的手段。 2 攻防历史2.1 史前时代早期的过滤手段大概是DNS投毒和IP黑名单。本人网龄不算太长，这个阶段具体是">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-01-05T23:58:21.828Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;linqinghuang&#x2F;linqinghuang.github.io&#x2F;blob&#x2F;master&#x2F;2020&#x2F;02&#x2F;03&#x2F;%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-1&#x2F;youtube_4k.png">
+<meta property="og:updated_time" content="2020-02-03T00:31:16.664Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;linqinghuang&#x2F;linqinghuang.github.io&#x2F;blob&#x2F;master&#x2F;2020&#x2F;02&#x2F;03&#x2F;%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-1&#x2F;youtube_4k.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -313,7 +315,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-02-03 08:23:25'>2020-02-02 23:00</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-03 08:31:16'>2020-02-02 23:00</time>
         
     </div>
     <div class="article-meta">
@@ -363,7 +365,7 @@
 <p>至此，出现了很多自行搭建的VPS直接被封IP的现象，一年50美刀左右的VPS直接作废，对个人来说还是有点肉疼的。到这里，攻方又想出了新策略。既然HTTP和HTTPS是主要数据，随机<br>数据又可疑，那么只要把数据伪装成HTTP或者HTTPS不就好了。</p>
 <p>目前将加密的代理数据伪装成HTTP或者HTTPS的软件有v2ray+ws+tls，或者是使用trojan。这两个新软件目前仍然持续在开发和维护中。单纯的v2ray目前也能被检测到了，需要加上websocket<br>还有tls。trojan目前直接就可以伪装成HTTP或者HTTPS，trojan应该会是趋势。但是trojan目前尚年轻。本文先不介绍。这里重点讲解v2ray+websocket+tls的方式。</p>
 <h4 id="3-什么是v2ray"><a href="#3-什么是v2ray" class="headerlink" title="3 什么是v2ray"></a>3 什么是v2ray</h4><p>v2ray是一个网络代理工具，代码在github上是开源的（<a href="https://github.com/v2ray/v2ray-core）" target="_blank" rel="noopener">https://github.com/v2ray/v2ray-core）</a> ，目前star数已经有26.6k了，代码还在持续更新中。这个star数量，想必你也猜到了，防守方也有检测的策略了。直接裸奔使用v2ray是不安全的。还需要在此基础之上再使用websocket和<br>tls进行伪装，伪装成http，以彻底避免被封IP的命运。</p>
-<p><img src="youtube_4k.png" alt=""></p>
+<p><img src="https://github.com/linqinghuang/linqinghuang.github.io/blob/master/2020/02/03/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-1/youtube_4k.png" alt=""></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 jaytp@qq.com </span>
@@ -381,7 +383,7 @@
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="linqinghuang">linqinghuang</a></p>
     <p><span class="copy-title">发布时间:</span>2020-02-02, 23:00:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-02-03, 08:23:25</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-03, 08:31:16</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/02/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-1/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" title="科学上网">http://yoursite.com/2020/02/02/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-1/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
