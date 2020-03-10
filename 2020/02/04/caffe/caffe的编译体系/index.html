@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>caffe的Makefile编译体系 | linqinghuang</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="caffe的Makefile编译体系 | linqinghuang">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="mAP的计算方式什么是mAP?mAP(mean average precision)平均精度均值，是用来衡量目标检测算法的精确度的一个指标。 真正例、真负例、假正例、假负例真假对应英语true和false、正例和负例则对应英语positive和negative。真假用于描述目标检测结果的正确与否，正例和负例则用于描述预测倾向，即“认为是”和“认为不是”。 举一个实际的例子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mAP的计算方式">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;06&#x2F;mAP&#x2F;index.html">
+<meta property="og:site_name" content="linqinghuang">
+<meta property="og:description" content="mAP的计算方式什么是mAP?mAP(mean average precision)平均精度均值，是用来衡量目标检测算法的精确度的一个指标。 真正例、真负例、假正例、假负例真假对应英语true和false、正例和负例则对应英语positive和negative。真假用于描述目标检测结果的正确与否，正例和负例则用于描述预测倾向，即“认为是”和“认为不是”。 举一个实际的例子">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-01-05T23:58:21.828Z">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1" ></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.0.1" ></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="false">
+  <input class="theme_blog_path" value="">
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>linqinghuang</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/yelog" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="facebook" href="https://www.facebook.com/faker.tops" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-facebook"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="instagram" href="https://www.facebook.com/faker.tops" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="reddit" href="https://www.reddit.com/user/yelog/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-reddit"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="weibo" href="http://weibo.com/u/2307534817" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-weibo"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="jianshu" href="https://www.jianshu.com/u/ff56736de7cf" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-jianshu"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="zhihu" href="https://www.zhihu.com/people/jaytp/activities" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-zhihu"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="oschina" href="https://my.oschina.net/yelog" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-oschina"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:jaytp@qq.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="qq" href="http://wpa.qq.com/msgrd?v=3&uin=872336115&site=qq&menu=yes" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-qq"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="kugou" href="https://www.kugou.com/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-kugou"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=88151013" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(5)</small></div></li>
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="5">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class=""
+           href="/2019/11/10/hello-world/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2019-11-10 23:14:58">2019/11/10</span>
+        </a>
+        
+        <a  class=""
+           href="/2019/11/11/lqh/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="lqh">lqh</span>
+            <span class="post-date" title="2019-11-11 00:03:30">2019/11/11</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/01/06/mAP/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="mAP的计算方式">mAP的计算方式</span>
+            <span class="post-date" title="2020-01-06 08:00:00">2020/01/06</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/04/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="科学上网">科学上网</span>
+            <span class="post-date" title="2020-02-04 07:33:34">2020/02/04</span>
+        </a>
+        
+        <a  class=""
+           href="/2020/02/04/caffe/caffe%E7%9A%84%E7%BC%96%E8%AF%91%E4%BD%93%E7%B3%BB/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="caffe的Makefile编译体系">caffe的Makefile编译体系</span>
+            <span class="post-date" title="2020-02-04 07:51:05">2020/02/04</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-caffe/caffe的编译体系" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">caffe的Makefile编译体系</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2020-02-05 08:24:24'>2020-02-04 07:51</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#caffe框架的Makefile编译体系"><span class="toc-text">caffe框架的Makefile编译体系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Makefile文件全注释"><span class="toc-text">Makefile文件全注释</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="caffe框架的Makefile编译体系"><a href="#caffe框架的Makefile编译体系" class="headerlink" title="caffe框架的Makefile编译体系"></a>caffe框架的Makefile编译体系</h3><p>在caffe框架源码的根目录下，有两份主要的编译文件。Makefile和Makefile.config.example。显然，使用makefile对<br>caffe的源代码进行编译之前，需要先拷贝Makefile.config.example，并命名为Makefile.config，用于作为Makefile的<br>配置文件。</p>
+<p>Makefile.config主要用于设置一些依赖库以及一些头文件的路径等。</p>
+<p>在Makefile的第二行中包含了该配置文件：</p>
+<p><code>CONFIG_FILE := Makefile.config</code></p>
+<h3 id="Makefile文件全注释"><a href="#Makefile文件全注释" class="headerlink" title="Makefile文件全注释"></a>Makefile文件全注释</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br></pre></td><td class="code"><pre><span class="line">PROJECT := caffe <span class="comment">#设置变量, 使用 ：=而不是 =，可以避免递归赋值</span></span><br><span class="line"></span><br><span class="line">CONFIG_FILE := Makefile.config <span class="comment">#设置变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#一段shell命令，用于检查配置文件是否存在</span></span><br><span class="line"><span class="comment"># Explicitly check for the config file, otherwise make -k will proceed anyway.</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(<span class="built_in">wildcard</span> <span class="variable">$(CONFIG_FILE)</span>)</span>,)<span class="comment">#wildcard用于查找当前路径下的文件，找到了就返回0</span></span><br><span class="line"><span class="variable">$(<span class="built_in">error</span> <span class="variable">$(CONFIG_FILE)</span> not found. See <span class="variable">$(CONFIG_FILE)</span>.example.)</span></span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(CONFIG_FILE)</span> <span class="comment">#使用include的方法添加，相当于Makefile.config其实也是一个Makefile文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置build路径还有release路径</span></span><br><span class="line"></span><br><span class="line">BUILD_DIR_LINK := <span class="variable">$(BUILD_DIR)</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(RELEASE_BUILD_DIR)</span>,)</span><br><span class="line">	RELEASE_BUILD_DIR := .<span class="variable">$(BUILD_DIR)</span>_release</span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(DEBUG_BUILD_DIR)</span>,)</span><br><span class="line">	DEBUG_BUILD_DIR := .<span class="variable">$(BUILD_DIR)</span>_debug</span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line">DEBUG ?= 0</span><br><span class="line"><span class="keyword">ifeq</span> (<span class="variable">$(DEBUG)</span>, 1)</span><br><span class="line">	BUILD_DIR := <span class="variable">$(DEBUG_BUILD_DIR)</span></span><br><span class="line">	OTHER_BUILD_DIR := <span class="variable">$(RELEASE_BUILD_DIR)</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	BUILD_DIR := <span class="variable">$(RELEASE_BUILD_DIR)</span></span><br><span class="line">	OTHER_BUILD_DIR := <span class="variable">$(DEBUG_BUILD_DIR)</span></span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#添加所有包含源代码的路径，使用shell的find命令，查找所有的cpp还有proto文件</span></span><br><span class="line"><span class="comment"># All of the directories containing code.</span></span><br><span class="line">SRC_DIRS := <span class="variable">$(<span class="built_in">shell</span> find * -type d -exec bash -c "find &#123;&#125; -maxdepth 1 \</span></span><br><span class="line"><span class="variable">	\( -name '*.cpp' -o -name '*.proto' \)</span> | grep -q .<span class="string">" \; -print)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># The target shared library name</span></span><br><span class="line"><span class="string">LIBRARY_NAME := <span class="variable">$(PROJECT)</span></span></span><br><span class="line"><span class="string">LIB_BUILD_DIR := <span class="variable">$(BUILD_DIR)</span>/lib</span></span><br><span class="line"><span class="string">STATIC_NAME := <span class="variable">$(LIB_BUILD_DIR)</span>/lib<span class="variable">$(LIBRARY_NAME)</span>.a</span></span><br><span class="line"><span class="string">DYNAMIC_VERSION_MAJOR 		:= 1</span></span><br><span class="line"><span class="string">DYNAMIC_VERSION_MINOR 		:= 0</span></span><br><span class="line"><span class="string">DYNAMIC_VERSION_REVISION 	:= 0</span></span><br><span class="line"><span class="string">DYNAMIC_NAME_SHORT := lib<span class="variable">$(LIBRARY_NAME)</span>.so</span></span><br><span class="line"><span class="string">#DYNAMIC_SONAME_SHORT := <span class="variable">$(DYNAMIC_NAME_SHORT)</span>.<span class="variable">$(DYNAMIC_VERSION_MAJOR)</span></span></span><br><span class="line"><span class="string">DYNAMIC_VERSIONED_NAME_SHORT := <span class="variable">$(DYNAMIC_NAME_SHORT)</span>.<span class="variable">$(DYNAMIC_VERSION_MAJOR)</span>.<span class="variable">$(DYNAMIC_VERSION_MINOR)</span>.<span class="variable">$(DYNAMIC_VERSION_REVISION)</span></span></span><br><span class="line"><span class="string">DYNAMIC_NAME := <span class="variable">$(LIB_BUILD_DIR)</span>/<span class="variable">$(DYNAMIC_VERSIONED_NAME_SHORT)</span></span></span><br><span class="line"><span class="string">COMMON_FLAGS += -DCAFFE_VERSION=<span class="variable">$(DYNAMIC_VERSION_MAJOR)</span>.<span class="variable">$(DYNAMIC_VERSION_MINOR)</span>.<span class="variable">$(DYNAMIC_VERSION_REVISION)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Get all source files，获取所有的源文件</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># CXX_SRCS are the source files excluding the test ones.</span></span><br><span class="line"><span class="string">CXX_SRCS := $(shell find src/<span class="variable">$(PROJECT)</span> ! -name "</span>test_*.cpp<span class="string">" -name "</span>*.cpp<span class="string">")#c++文件</span></span><br><span class="line"><span class="string"># CU_SRCS are the cuda source files</span></span><br><span class="line"><span class="string">CU_SRCS := $(shell find src/<span class="variable">$(PROJECT)</span> ! -name "</span>test_*.cu<span class="string">" -name "</span>*.cu<span class="string">")#cu文件</span></span><br><span class="line"><span class="string"># TEST_SRCS are the test source files</span></span><br><span class="line"><span class="string">TEST_MAIN_SRC := src/<span class="variable">$(PROJECT)</span>/test/test_caffe_main.cpp#测试代码主文件</span></span><br><span class="line"><span class="string">TEST_SRCS := $(shell find src/<span class="variable">$(PROJECT)</span> -name "</span>test_*.cpp<span class="string">")</span></span><br><span class="line"><span class="string">TEST_SRCS := $(filter-out <span class="variable">$(TEST_MAIN_SRC)</span>, <span class="variable">$(TEST_SRCS)</span>)</span></span><br><span class="line"><span class="string">TEST_CU_SRCS := $(shell find src/<span class="variable">$(PROJECT)</span> -name "</span>test_*.cu<span class="string">")</span></span><br><span class="line"><span class="string">GTEST_SRC := src/gtest/gtest-all.cpp#gtest文件</span></span><br><span class="line"><span class="string"># TOOL_SRCS are the source files for the tool binaries</span></span><br><span class="line"><span class="string">TOOL_SRCS := $(shell find tools -name "</span>*.cpp<span class="string">")#工具源码文件</span></span><br><span class="line"><span class="string"># EXAMPLE_SRCS are the source files for the example binaries</span></span><br><span class="line"><span class="string">EXAMPLE_SRCS := $(shell find examples -name "</span>*.cpp<span class="string">")#例子源码文件</span></span><br><span class="line"><span class="string"># BUILD_INCLUDE_DIR contains any generated header files we want to include.</span></span><br><span class="line"><span class="string">BUILD_INCLUDE_DIR := <span class="variable">$(BUILD_DIR)</span>/src</span></span><br><span class="line"><span class="string"># PROTO_SRCS are the protocol buffer definitions</span></span><br><span class="line"><span class="string">PROTO_SRC_DIR := src/<span class="variable">$(PROJECT)</span>/proto#谷歌的proto协议文件路径</span></span><br><span class="line"><span class="string">PROTO_SRCS := $(wildcard <span class="variable">$(PROTO_SRC_DIR)</span>/*.proto)</span></span><br><span class="line"><span class="string"># PROTO_BUILD_DIR will contain the .cc and obj files generated from</span></span><br><span class="line"><span class="string"># PROTO_SRCS; PROTO_BUILD_INCLUDE_DIR will contain the .h header files</span></span><br><span class="line"><span class="string">PROTO_BUILD_DIR := <span class="variable">$(BUILD_DIR)</span>/<span class="variable">$(PROTO_SRC_DIR)</span></span></span><br><span class="line"><span class="string">PROTO_BUILD_INCLUDE_DIR := <span class="variable">$(BUILD_INCLUDE_DIR)</span>/<span class="variable">$(PROJECT)</span>/proto</span></span><br><span class="line"><span class="string"># NONGEN_CXX_SRCS includes all source/header files except those generated</span></span><br><span class="line"><span class="string"># automatically (e.g., by proto).</span></span><br><span class="line"><span class="string">NONGEN_CXX_SRCS := $(shell find \</span></span><br><span class="line"><span class="string">	src/<span class="variable">$(PROJECT)</span> \</span></span><br><span class="line"><span class="string">	include/<span class="variable">$(PROJECT)</span> \</span></span><br><span class="line"><span class="string">	python/<span class="variable">$(PROJECT)</span> \</span></span><br><span class="line"><span class="string">	matlab/+<span class="variable">$(PROJECT)</span>/private \</span></span><br><span class="line"><span class="string">	examples \</span></span><br><span class="line"><span class="string">	tools \</span></span><br><span class="line"><span class="string">	-name "</span>*.cpp<span class="string">" -or -name "</span>*.hpp<span class="string">" -or -name "</span>*.cu<span class="string">" -or -name "</span>*.cuh<span class="string">")</span></span><br><span class="line"><span class="string">LINT_SCRIPT := scripts/cpp_lint.py</span></span><br><span class="line"><span class="string">LINT_OUTPUT_DIR := <span class="variable">$(BUILD_DIR)</span>/.lint</span></span><br><span class="line"><span class="string">LINT_EXT := lint.txt</span></span><br><span class="line"><span class="string">LINT_OUTPUTS := $(addsuffix .<span class="variable">$(LINT_EXT)</span>, $(addprefix <span class="variable">$(LINT_OUTPUT_DIR)</span>/, <span class="variable">$(NONGEN_CXX_SRCS)</span>))</span></span><br><span class="line"><span class="string">EMPTY_LINT_REPORT := <span class="variable">$(BUILD_DIR)</span>/.<span class="variable">$(LINT_EXT)</span></span></span><br><span class="line"><span class="string">NONEMPTY_LINT_REPORT := <span class="variable">$(BUILD_DIR)</span>/<span class="variable">$(LINT_EXT)</span></span></span><br><span class="line"><span class="string"># PY<span class="variable">$(PROJECT)</span>_SRC is the python wrapper for <span class="variable">$(PROJECT)</span></span></span><br><span class="line"><span class="string">PY<span class="variable">$(PROJECT)</span>_SRC := python/<span class="variable">$(PROJECT)</span>/_<span class="variable">$(PROJECT)</span>.cpp</span></span><br><span class="line"><span class="string">PY<span class="variable">$(PROJECT)</span>_SO := python/<span class="variable">$(PROJECT)</span>/_<span class="variable">$(PROJECT)</span>.so</span></span><br><span class="line"><span class="string">PY<span class="variable">$(PROJECT)</span>_HXX := include/<span class="variable">$(PROJECT)</span>/layers/python_layer.hpp</span></span><br><span class="line"><span class="string"># MAT<span class="variable">$(PROJECT)</span>_SRC is the mex entrance point of matlab package for <span class="variable">$(PROJECT)</span></span></span><br><span class="line"><span class="string">MAT<span class="variable">$(PROJECT)</span>_SRC := matlab/+<span class="variable">$(PROJECT)</span>/private/<span class="variable">$(PROJECT)</span>_.cpp</span></span><br><span class="line"><span class="string">ifneq (<span class="variable">$(MATLAB_DIR)</span>,)</span></span><br><span class="line"><span class="string">	MAT_SO_EXT := $(shell <span class="variable">$(MATLAB_DIR)</span>/bin/mexext)</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">MAT<span class="variable">$(PROJECT)</span>_SO := matlab/+<span class="variable">$(PROJECT)</span>/private/<span class="variable">$(PROJECT)</span>_.<span class="variable">$(MAT_SO_EXT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Derive generated files</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># The generated files for protocol buffers</span></span><br><span class="line"><span class="string">#生成的proto的.pb.h和.pb.cc</span></span><br><span class="line"><span class="string">PROTO_GEN_HEADER_SRCS := $(addprefix <span class="variable">$(PROTO_BUILD_DIR)</span>/, \</span></span><br><span class="line"><span class="string">		$(notdir $&#123;PROTO_SRCS:.proto=.pb.h&#125;))</span></span><br><span class="line"><span class="string">PROTO_GEN_HEADER := $(addprefix <span class="variable">$(PROTO_BUILD_INCLUDE_DIR)</span>/, \</span></span><br><span class="line"><span class="string">		$(notdir $&#123;PROTO_SRCS:.proto=.pb.h&#125;))</span></span><br><span class="line"><span class="string">PROTO_GEN_CC := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;PROTO_SRCS:.proto=.pb.cc&#125;)</span></span><br><span class="line"><span class="string">PY_PROTO_BUILD_DIR := python/<span class="variable">$(PROJECT)</span>/proto</span></span><br><span class="line"><span class="string">PY_PROTO_INIT := python/<span class="variable">$(PROJECT)</span>/proto/__init__.py</span></span><br><span class="line"><span class="string">PROTO_GEN_PY := $(foreach file,$&#123;PROTO_SRCS:.proto=_pb2.py&#125;, \</span></span><br><span class="line"><span class="string">		<span class="variable">$(PY_PROTO_BUILD_DIR)</span>/$(notdir <span class="variable">$(file)</span>))</span></span><br><span class="line"><span class="string"># The objects corresponding to the source files</span></span><br><span class="line"><span class="string"># These objects will be linked into the final shared library, so we</span></span><br><span class="line"><span class="string"># exclude the tool, example, and test objects.</span></span><br><span class="line"><span class="string">CXX_OBJS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;CXX_SRCS:.cpp=.o&#125;)</span></span><br><span class="line"><span class="string">CU_OBJS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/cuda/, $&#123;CU_SRCS:.cu=.o&#125;)</span></span><br><span class="line"><span class="string">PROTO_OBJS := $&#123;PROTO_GEN_CC:.cc=.o&#125;</span></span><br><span class="line"><span class="string">OBJS := <span class="variable">$(PROTO_OBJS)</span> <span class="variable">$(CXX_OBJS)</span> <span class="variable">$(CU_OBJS)</span></span></span><br><span class="line"><span class="string"># tool, example, and test objects</span></span><br><span class="line"><span class="string">TOOL_OBJS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;TOOL_SRCS:.cpp=.o&#125;)</span></span><br><span class="line"><span class="string">TOOL_BUILD_DIR := <span class="variable">$(BUILD_DIR)</span>/tools</span></span><br><span class="line"><span class="string">TEST_CXX_BUILD_DIR := <span class="variable">$(BUILD_DIR)</span>/src/<span class="variable">$(PROJECT)</span>/test</span></span><br><span class="line"><span class="string">TEST_CU_BUILD_DIR := <span class="variable">$(BUILD_DIR)</span>/cuda/src/<span class="variable">$(PROJECT)</span>/test</span></span><br><span class="line"><span class="string">TEST_CXX_OBJS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;TEST_SRCS:.cpp=.o&#125;)</span></span><br><span class="line"><span class="string">TEST_CU_OBJS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/cuda/, $&#123;TEST_CU_SRCS:.cu=.o&#125;)</span></span><br><span class="line"><span class="string">TEST_OBJS := <span class="variable">$(TEST_CXX_OBJS)</span> <span class="variable">$(TEST_CU_OBJS)</span></span></span><br><span class="line"><span class="string">GTEST_OBJ := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;GTEST_SRC:.cpp=.o&#125;)</span></span><br><span class="line"><span class="string">EXAMPLE_OBJS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;EXAMPLE_SRCS:.cpp=.o&#125;)</span></span><br><span class="line"><span class="string"># Output files for automatic dependency generation</span></span><br><span class="line"><span class="string">DEPS := $&#123;CXX_OBJS:.o=.d&#125; $&#123;CU_OBJS:.o=.d&#125; $&#123;TEST_CXX_OBJS:.o=.d&#125; \</span></span><br><span class="line"><span class="string">	$&#123;TEST_CU_OBJS:.o=.d&#125; <span class="variable">$(BUILD_DIR)</span>/$&#123;MAT<span class="variable">$(PROJECT)</span>_SO:.<span class="variable">$(MAT_SO_EXT)</span>=.d&#125;</span></span><br><span class="line"><span class="string"># tool, example, and test bins</span></span><br><span class="line"><span class="string">TOOL_BINS := $&#123;TOOL_OBJS:.o=.bin&#125;</span></span><br><span class="line"><span class="string">EXAMPLE_BINS := $&#123;EXAMPLE_OBJS:.o=.bin&#125;</span></span><br><span class="line"><span class="string"># symlinks to tool bins without the "</span>.bin<span class="string">" extension</span></span><br><span class="line"><span class="string">TOOL_BIN_LINKS := $&#123;TOOL_BINS:.bin=&#125;</span></span><br><span class="line"><span class="string"># Put the test binaries in build/test for convenience.</span></span><br><span class="line"><span class="string">TEST_BIN_DIR := <span class="variable">$(BUILD_DIR)</span>/test</span></span><br><span class="line"><span class="string">TEST_CU_BINS := $(addsuffix .testbin,$(addprefix <span class="variable">$(TEST_BIN_DIR)</span>/, \</span></span><br><span class="line"><span class="string">		$(foreach obj,<span class="variable">$(TEST_CU_OBJS)</span>,$(basename $(notdir <span class="variable">$(obj)</span>)))))</span></span><br><span class="line"><span class="string">TEST_CXX_BINS := $(addsuffix .testbin,$(addprefix <span class="variable">$(TEST_BIN_DIR)</span>/, \</span></span><br><span class="line"><span class="string">		$(foreach obj,<span class="variable">$(TEST_CXX_OBJS)</span>,$(basename $(notdir <span class="variable">$(obj)</span>)))))</span></span><br><span class="line"><span class="string">TEST_BINS := <span class="variable">$(TEST_CXX_BINS)</span> <span class="variable">$(TEST_CU_BINS)</span></span></span><br><span class="line"><span class="string"># TEST_ALL_BIN is the test binary that links caffe dynamically.</span></span><br><span class="line"><span class="string">TEST_ALL_BIN := <span class="variable">$(TEST_BIN_DIR)</span>/test_all.testbin</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Derive compiler warning dump locations</span></span><br><span class="line"><span class="string"># 告警信息的路径</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string">WARNS_EXT := warnings.txt</span></span><br><span class="line"><span class="string">CXX_WARNS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;CXX_SRCS:.cpp=.o.<span class="variable">$(WARNS_EXT)</span>&#125;)</span></span><br><span class="line"><span class="string">CU_WARNS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/cuda/, $&#123;CU_SRCS:.cu=.o.<span class="variable">$(WARNS_EXT)</span>&#125;)</span></span><br><span class="line"><span class="string">TOOL_WARNS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;TOOL_SRCS:.cpp=.o.<span class="variable">$(WARNS_EXT)</span>&#125;)</span></span><br><span class="line"><span class="string">EXAMPLE_WARNS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;EXAMPLE_SRCS:.cpp=.o.<span class="variable">$(WARNS_EXT)</span>&#125;)</span></span><br><span class="line"><span class="string">TEST_WARNS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/, $&#123;TEST_SRCS:.cpp=.o.<span class="variable">$(WARNS_EXT)</span>&#125;)</span></span><br><span class="line"><span class="string">TEST_CU_WARNS := $(addprefix <span class="variable">$(BUILD_DIR)</span>/cuda/, $&#123;TEST_CU_SRCS:.cu=.o.<span class="variable">$(WARNS_EXT)</span>&#125;)</span></span><br><span class="line"><span class="string">ALL_CXX_WARNS := <span class="variable">$(CXX_WARNS)</span> <span class="variable">$(TOOL_WARNS)</span> <span class="variable">$(EXAMPLE_WARNS)</span> <span class="variable">$(TEST_WARNS)</span></span></span><br><span class="line"><span class="string">ALL_CU_WARNS := <span class="variable">$(CU_WARNS)</span> <span class="variable">$(TEST_CU_WARNS)</span></span></span><br><span class="line"><span class="string">ALL_WARNS := <span class="variable">$(ALL_CXX_WARNS)</span> <span class="variable">$(ALL_CU_WARNS)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">EMPTY_WARN_REPORT := <span class="variable">$(BUILD_DIR)</span>/.<span class="variable">$(WARNS_EXT)</span></span></span><br><span class="line"><span class="string">NONEMPTY_WARN_REPORT := <span class="variable">$(BUILD_DIR)</span>/<span class="variable">$(WARNS_EXT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Derive include and lib directories</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string">CUDA_INCLUDE_DIR := <span class="variable">$(CUDA_DIR)</span>/include</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CUDA_LIB_DIR :=</span></span><br><span class="line"><span class="string"># add &lt;cuda&gt;/lib64 only if it exists</span></span><br><span class="line"><span class="string">ifneq ("</span><span class="variable">$(<span class="built_in">wildcard</span> <span class="variable">$(CUDA_DIR)</span>/lib64)</span><span class="string">","</span><span class="string">")</span></span><br><span class="line"><span class="string">	CUDA_LIB_DIR += <span class="variable">$(CUDA_DIR)</span>/lib64</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">CUDA_LIB_DIR += <span class="variable">$(CUDA_DIR)</span>/lib</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">INCLUDE_DIRS += <span class="variable">$(BUILD_INCLUDE_DIR)</span> ./src ./include</span></span><br><span class="line"><span class="string">ifneq (<span class="variable">$(CPU_ONLY)</span>, 1)</span></span><br><span class="line"><span class="string">	INCLUDE_DIRS += <span class="variable">$(CUDA_INCLUDE_DIR)</span></span></span><br><span class="line"><span class="string">	LIBRARY_DIRS += <span class="variable">$(CUDA_LIB_DIR)</span></span></span><br><span class="line"><span class="string">	LIBRARIES := cudart cublas curand</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">LIBRARIES += glog gflags protobuf boost_system boost_filesystem m</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># handle IO dependencies</span></span><br><span class="line"><span class="string">USE_LEVELDB ?= 1 #?=表示，如果变量没有被定义过，那么就等于后者，如果定义过，则什么也不做</span></span><br><span class="line"><span class="string">USE_LMDB ?= 1</span></span><br><span class="line"><span class="string"># This code is taken from https://github.com/sh1r0/caffe-android-lib</span></span><br><span class="line"><span class="string">USE_HDF5 ?= 1</span></span><br><span class="line"><span class="string">USE_OPENCV ?= 1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_LEVELDB)</span>, 1)</span></span><br><span class="line"><span class="string">	LIBRARIES += leveldb snappy</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_LMDB)</span>, 1)</span></span><br><span class="line"><span class="string">	LIBRARIES += lmdb</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"># This code is taken from https://github.com/sh1r0/caffe-android-lib</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_HDF5)</span>, 1)</span></span><br><span class="line"><span class="string">	LIBRARIES += hdf5_hl hdf5</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_OPENCV)</span>, 1)</span></span><br><span class="line"><span class="string">	LIBRARIES += opencv_core opencv_highgui opencv_imgproc</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	ifeq (<span class="variable">$(OPENCV_VERSION)</span>, 3)</span></span><br><span class="line"><span class="string">		LIBRARIES += opencv_imgcodecs</span></span><br><span class="line"><span class="string">	endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">PYTHON_LIBRARIES ?= boost_python python2.7</span></span><br><span class="line"><span class="string">WARNINGS := -Wall -Wno-sign-compare</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Set build directories</span></span><br><span class="line"><span class="string"># 设置构建的路径</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">DISTRIBUTE_DIR ?= distribute</span></span><br><span class="line"><span class="string">DISTRIBUTE_SUBDIRS := <span class="variable">$(DISTRIBUTE_DIR)</span>/bin <span class="variable">$(DISTRIBUTE_DIR)</span>/lib</span></span><br><span class="line"><span class="string">DIST_ALIASES := dist</span></span><br><span class="line"><span class="string">ifneq ($(strip <span class="variable">$(DISTRIBUTE_DIR)</span>),distribute)</span></span><br><span class="line"><span class="string">		DIST_ALIASES += distribute</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">ALL_BUILD_DIRS := $(sort <span class="variable">$(BUILD_DIR)</span> $(addprefix <span class="variable">$(BUILD_DIR)</span>/, <span class="variable">$(SRC_DIRS)</span>) \</span></span><br><span class="line"><span class="string">	$(addprefix <span class="variable">$(BUILD_DIR)</span>/cuda/, <span class="variable">$(SRC_DIRS)</span>) \</span></span><br><span class="line"><span class="string">	<span class="variable">$(LIB_BUILD_DIR)</span> <span class="variable">$(TEST_BIN_DIR)</span> <span class="variable">$(PY_PROTO_BUILD_DIR)</span> <span class="variable">$(LINT_OUTPUT_DIR)</span> \</span></span><br><span class="line"><span class="string">	<span class="variable">$(DISTRIBUTE_SUBDIRS)</span> <span class="variable">$(PROTO_BUILD_INCLUDE_DIR)</span>)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Set directory for Doxygen-generated documentation</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string">DOXYGEN_CONFIG_FILE ?= ./.Doxyfile</span></span><br><span class="line"><span class="string"># should be the same as OUTPUT_DIRECTORY in the .Doxyfile</span></span><br><span class="line"><span class="string">DOXYGEN_OUTPUT_DIR ?= ./doxygen</span></span><br><span class="line"><span class="string">DOXYGEN_COMMAND ?= doxygen</span></span><br><span class="line"><span class="string"># All the files that might have Doxygen documentation.</span></span><br><span class="line"><span class="string">DOXYGEN_SOURCES := $(shell find \</span></span><br><span class="line"><span class="string">	src/<span class="variable">$(PROJECT)</span> \</span></span><br><span class="line"><span class="string">	include/<span class="variable">$(PROJECT)</span> \</span></span><br><span class="line"><span class="string">	python/ \</span></span><br><span class="line"><span class="string">	matlab/ \</span></span><br><span class="line"><span class="string">	examples \</span></span><br><span class="line"><span class="string">	tools \</span></span><br><span class="line"><span class="string">	-name "</span>*.cpp<span class="string">" -or -name "</span>*.hpp<span class="string">" -or -name "</span>*.cu<span class="string">" -or -name "</span>*.cuh<span class="string">" -or \</span></span><br><span class="line"><span class="string">        -name "</span>*.py<span class="string">" -or -name "</span>*.m<span class="string">")</span></span><br><span class="line"><span class="string">DOXYGEN_SOURCES += <span class="variable">$(DOXYGEN_CONFIG_FILE)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Configure build</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Determine platform 判断构建的平台，支持Linux、os x、，判断好之后设置编译器，还有boost</span></span><br><span class="line"><span class="string">UNAME := $(shell uname -s)</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(UNAME)</span>, Linux)</span></span><br><span class="line"><span class="string">	LINUX := 1</span></span><br><span class="line"><span class="string">else ifeq (<span class="variable">$(UNAME)</span>, Darwin)</span></span><br><span class="line"><span class="string">	OSX := 1</span></span><br><span class="line"><span class="string">	OSX_MAJOR_VERSION := $(shell sw_vers -productVersion | cut -f 1 -d .)</span></span><br><span class="line"><span class="string">	OSX_MINOR_VERSION := $(shell sw_vers -productVersion | cut -f 2 -d .)</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Linux</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(LINUX)</span>, 1)</span></span><br><span class="line"><span class="string">	CXX ?= /usr/bin/g++</span></span><br><span class="line"><span class="string">	GCCVERSION := $(shell <span class="variable">$(CXX)</span> -dumpversion | cut -f1,2 -d.)</span></span><br><span class="line"><span class="string">	# older versions of gcc are too dumb to build boost with -Wuninitalized</span></span><br><span class="line"><span class="string">	ifeq ($(shell echo | awk '&#123;exit <span class="variable">$(GCCVERSION)</span> &lt; 4.6;&#125;'), 1)</span></span><br><span class="line"><span class="string">		WARNINGS += -Wno-uninitialized</span></span><br><span class="line"><span class="string">	endif</span></span><br><span class="line"><span class="string">	# boost::thread is reasonably called boost_thread (compare OS X)</span></span><br><span class="line"><span class="string">	# We will also explicitly add stdc++ to the link target.</span></span><br><span class="line"><span class="string">	LIBRARIES += boost_thread stdc++</span></span><br><span class="line"><span class="string">	VERSIONFLAGS += -Wl,-soname,<span class="variable">$(DYNAMIC_VERSIONED_NAME_SHORT)</span> -Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../lib</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># OS X:</span></span><br><span class="line"><span class="string"># clang++ instead of g++</span></span><br><span class="line"><span class="string"># libstdc++ for NVCC compatibility on OS X &gt;= 10.9 with CUDA &lt; 7.0</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(OSX)</span>, 1)</span></span><br><span class="line"><span class="string">	CXX := /usr/bin/clang++</span></span><br><span class="line"><span class="string">	ifneq (<span class="variable">$(CPU_ONLY)</span>, 1)</span></span><br><span class="line"><span class="string">		CUDA_VERSION := $(shell <span class="variable">$(CUDA_DIR)</span>/bin/nvcc -V | grep -o 'release [0-9.]*' | tr -d '[a-z ]')</span></span><br><span class="line"><span class="string">		ifeq ($(shell echo | awk '&#123;exit <span class="variable">$(CUDA_VERSION)</span> &lt; 7.0;&#125;'), 1)</span></span><br><span class="line"><span class="string">			CXXFLAGS += -stdlib=libstdc++</span></span><br><span class="line"><span class="string">			LINKFLAGS += -stdlib=libstdc++</span></span><br><span class="line"><span class="string">		endif</span></span><br><span class="line"><span class="string">		# clang throws this warning for cuda headers</span></span><br><span class="line"><span class="string">		WARNINGS += -Wno-unneeded-internal-declaration</span></span><br><span class="line"><span class="string">		# 10.11 strips DYLD_* env vars so link CUDA (rpath is available on 10.5+)</span></span><br><span class="line"><span class="string">		OSX_10_OR_LATER   := $(shell [ <span class="variable">$(OSX_MAJOR_VERSION)</span> -ge 10 ] &amp;&amp; echo true)</span></span><br><span class="line"><span class="string">		OSX_10_5_OR_LATER := $(shell [ <span class="variable">$(OSX_MINOR_VERSION)</span> -ge 5 ] &amp;&amp; echo true)</span></span><br><span class="line"><span class="string">		ifeq (<span class="variable">$(OSX_10_OR_LATER)</span>,true)</span></span><br><span class="line"><span class="string">			ifeq (<span class="variable">$(OSX_10_5_OR_LATER)</span>,true)</span></span><br><span class="line"><span class="string">				LDFLAGS += -Wl,-rpath,<span class="variable">$(CUDA_LIB_DIR)</span></span></span><br><span class="line"><span class="string">			endif</span></span><br><span class="line"><span class="string">		endif</span></span><br><span class="line"><span class="string">	endif</span></span><br><span class="line"><span class="string">	# gtest needs to use its own tuple to not conflict with clang</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DGTEST_USE_OWN_TR1_TUPLE=1</span></span><br><span class="line"><span class="string">	# boost::thread is called boost_thread-mt to mark multithreading on OS X</span></span><br><span class="line"><span class="string">	LIBRARIES += boost_thread-mt</span></span><br><span class="line"><span class="string">	# we need to explicitly ask for the rpath to be obeyed</span></span><br><span class="line"><span class="string">	ORIGIN := @loader_path</span></span><br><span class="line"><span class="string">	VERSIONFLAGS += -Wl,-install_name,@rpath/<span class="variable">$(DYNAMIC_VERSIONED_NAME_SHORT)</span> -Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../../build/lib</span></span><br><span class="line"><span class="string">else</span></span><br><span class="line"><span class="string">	ORIGIN := \$$ORIGIN</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Custom compiler，自定义编译器</span></span><br><span class="line"><span class="string">ifdef CUSTOM_CXX</span></span><br><span class="line"><span class="string">	CXX := <span class="variable">$(CUSTOM_CXX)</span></span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Static linking 静态链接</span></span><br><span class="line"><span class="string">ifneq (,$(findstring clang++,<span class="variable">$(CXX)</span>))</span></span><br><span class="line"><span class="string">	STATIC_LINK_COMMAND := -Wl,-force_load <span class="variable">$(STATIC_NAME)</span></span></span><br><span class="line"><span class="string">else ifneq (,$(findstring g++,<span class="variable">$(CXX)</span>))</span></span><br><span class="line"><span class="string">	STATIC_LINK_COMMAND := -Wl,--whole-archive <span class="variable">$(STATIC_NAME)</span> -Wl,--no-whole-archive</span></span><br><span class="line"><span class="string">else</span></span><br><span class="line"><span class="string">  # The following line must not be indented with a tab, since we are not inside a target</span></span><br><span class="line"><span class="string">  $(error Cannot static link with the <span class="variable">$(CXX)</span> compiler)</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Debugging 判断是否打开debug选项</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(DEBUG)</span>, 1)</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DDEBUG -g -O0</span></span><br><span class="line"><span class="string">	NVCCFLAGS += -G</span></span><br><span class="line"><span class="string">else</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DNDEBUG -O2</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># cuDNN acceleration configuration.cudnn加速配置是否打开</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_CUDNN)</span>, 1)</span></span><br><span class="line"><span class="string">	LIBRARIES += cudnn</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DUSE_CUDNN</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># NCCL acceleration configuration nccl加速配置</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_NCCL)</span>, 1)</span></span><br><span class="line"><span class="string">	LIBRARIES += nccl</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DUSE_NCCL</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># configure IO libraries</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_OPENCV)</span>, 1)</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DUSE_OPENCV</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_LEVELDB)</span>, 1)</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DUSE_LEVELDB</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_LMDB)</span>, 1)</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DUSE_LMDB</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(ALLOW_LMDB_NOLOCK)</span>, 1)</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DALLOW_LMDB_NOLOCK</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"># This code is taken from https://github.com/sh1r0/caffe-android-lib</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_HDF5)</span>, 1)</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DUSE_HDF5</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># CPU-only configuration</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(CPU_ONLY)</span>, 1)</span></span><br><span class="line"><span class="string">	OBJS := <span class="variable">$(PROTO_OBJS)</span> <span class="variable">$(CXX_OBJS)</span></span></span><br><span class="line"><span class="string">	TEST_OBJS := <span class="variable">$(TEST_CXX_OBJS)</span></span></span><br><span class="line"><span class="string">	TEST_BINS := <span class="variable">$(TEST_CXX_BINS)</span></span></span><br><span class="line"><span class="string">	ALL_WARNS := <span class="variable">$(ALL_CXX_WARNS)</span></span></span><br><span class="line"><span class="string">	TEST_FILTER := --gtest_filter="</span>-*GPU*<span class="string">"</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DCPU_ONLY</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Python layer support</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(WITH_PYTHON_LAYER)</span>, 1)</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DWITH_PYTHON_LAYER</span></span><br><span class="line"><span class="string">	LIBRARIES += <span class="variable">$(PYTHON_LIBRARIES)</span></span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># BLAS configuration (default = ATLAS) ，配置blas库</span></span><br><span class="line"><span class="string">BLAS ?= atlas</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(BLAS)</span>, mkl)</span></span><br><span class="line"><span class="string">	# MKL</span></span><br><span class="line"><span class="string">	LIBRARIES += mkl_rt</span></span><br><span class="line"><span class="string">	COMMON_FLAGS += -DUSE_MKL</span></span><br><span class="line"><span class="string">	MKLROOT ?= /opt/intel/mkl</span></span><br><span class="line"><span class="string">	BLAS_INCLUDE ?= <span class="variable">$(MKLROOT)</span>/include</span></span><br><span class="line"><span class="string">	BLAS_LIB ?= <span class="variable">$(MKLROOT)</span>/lib <span class="variable">$(MKLROOT)</span>/lib/intel64</span></span><br><span class="line"><span class="string">else ifeq (<span class="variable">$(BLAS)</span>, open)</span></span><br><span class="line"><span class="string">	# OpenBLAS</span></span><br><span class="line"><span class="string">	LIBRARIES += openblas</span></span><br><span class="line"><span class="string">else</span></span><br><span class="line"><span class="string">	# ATLAS</span></span><br><span class="line"><span class="string">	ifeq (<span class="variable">$(LINUX)</span>, 1)</span></span><br><span class="line"><span class="string">		ifeq (<span class="variable">$(BLAS)</span>, atlas)</span></span><br><span class="line"><span class="string">			# Linux simply has cblas and atlas</span></span><br><span class="line"><span class="string">			LIBRARIES += cblas atlas</span></span><br><span class="line"><span class="string">		endif</span></span><br><span class="line"><span class="string">	else ifeq (<span class="variable">$(OSX)</span>, 1)</span></span><br><span class="line"><span class="string">		# OS X packages atlas as the vecLib framework</span></span><br><span class="line"><span class="string">		LIBRARIES += cblas</span></span><br><span class="line"><span class="string">		# 10.10 has accelerate while 10.9 has veclib</span></span><br><span class="line"><span class="string">		XCODE_CLT_VER := $(shell pkgutil --pkg-info=com.apple.pkg.CLTools_Executables | grep 'version' | sed 's/[^0-9]*\([0-9]\).*/\1/')</span></span><br><span class="line"><span class="string">		XCODE_CLT_GEQ_7 := $(shell [ <span class="variable">$(XCODE_CLT_VER)</span> -gt 6 ] &amp;&amp; echo 1)</span></span><br><span class="line"><span class="string">		XCODE_CLT_GEQ_6 := $(shell [ <span class="variable">$(XCODE_CLT_VER)</span> -gt 5 ] &amp;&amp; echo 1)</span></span><br><span class="line"><span class="string">		ifeq (<span class="variable">$(XCODE_CLT_GEQ_7)</span>, 1)</span></span><br><span class="line"><span class="string">			BLAS_INCLUDE ?= /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/$(shell ls /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ | sort | tail -1)/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/Headers</span></span><br><span class="line"><span class="string">		else ifeq (<span class="variable">$(XCODE_CLT_GEQ_6)</span>, 1)</span></span><br><span class="line"><span class="string">			BLAS_INCLUDE ?= /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Headers/</span></span><br><span class="line"><span class="string">			LDFLAGS += -framework Accelerate</span></span><br><span class="line"><span class="string">		else</span></span><br><span class="line"><span class="string">			BLAS_INCLUDE ?= /System/Library/Frameworks/vecLib.framework/Versions/Current/Headers/</span></span><br><span class="line"><span class="string">			LDFLAGS += -framework vecLib</span></span><br><span class="line"><span class="string">		endif</span></span><br><span class="line"><span class="string">	endif</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">INCLUDE_DIRS += <span class="variable">$(BLAS_INCLUDE)</span></span></span><br><span class="line"><span class="string">LIBRARY_DIRS += <span class="variable">$(BLAS_LIB)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">LIBRARY_DIRS += <span class="variable">$(LIB_BUILD_DIR)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Automatic dependency generation (nvcc is handled separately)</span></span><br><span class="line"><span class="string">CXXFLAGS += -MMD -MP</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Complete build flags.</span></span><br><span class="line"><span class="string">COMMON_FLAGS += $(foreach includedir,<span class="variable">$(INCLUDE_DIRS)</span>,-I<span class="variable">$(includedir)</span>)</span></span><br><span class="line"><span class="string">CXXFLAGS += -pthread -fPIC <span class="variable">$(COMMON_FLAGS)</span> <span class="variable">$(WARNINGS)</span></span></span><br><span class="line"><span class="string">NVCCFLAGS += -ccbin=<span class="variable">$(CXX)</span> -Xcompiler -fPIC <span class="variable">$(COMMON_FLAGS)</span></span></span><br><span class="line"><span class="string"># mex may invoke an older gcc that is too liberal with -Wuninitalized</span></span><br><span class="line"><span class="string">MATLAB_CXXFLAGS := <span class="variable">$(CXXFLAGS)</span> -Wno-uninitialized</span></span><br><span class="line"><span class="string">LINKFLAGS += -pthread -fPIC <span class="variable">$(COMMON_FLAGS)</span> <span class="variable">$(WARNINGS)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">USE_PKG_CONFIG ?= 0 #pkg-config是一个shell命令，使用--libs选项可以获取opencv的库文件，--cflags获取头文件路径</span></span><br><span class="line"><span class="string">ifeq (<span class="variable">$(USE_PKG_CONFIG)</span>, 1)</span></span><br><span class="line"><span class="string">	PKG_CONFIG := $(shell pkg-config opencv --libs)</span></span><br><span class="line"><span class="string">else</span></span><br><span class="line"><span class="string">	PKG_CONFIG :=</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">LDFLAGS += $(foreach librarydir,<span class="variable">$(LIBRARY_DIRS)</span>,-L<span class="variable">$(librarydir)</span>) <span class="variable">$(PKG_CONFIG)</span> \</span></span><br><span class="line"><span class="string">		$(foreach library,<span class="variable">$(LIBRARIES)</span>,-l<span class="variable">$(library)</span>)</span></span><br><span class="line"><span class="string">PYTHON_LDFLAGS := <span class="variable">$(LDFLAGS)</span> $(foreach library,<span class="variable">$(PYTHON_LIBRARIES)</span>,-l<span class="variable">$(library)</span>)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 'superclean' target recursively* deletes all files ending with an extension</span></span><br><span class="line"><span class="string"># in <span class="variable">$(SUPERCLEAN_EXTS)</span> below.  This may be useful if you've built older</span></span><br><span class="line"><span class="string"># versions of Caffe that do not place all generated files in a location known</span></span><br><span class="line"><span class="string"># to the 'clean' target.</span></span><br><span class="line"><span class="string">#</span></span><br><span class="line"><span class="string"># 'supercleanlist' will list the files to be deleted by make superclean.</span></span><br><span class="line"><span class="string">#</span></span><br><span class="line"><span class="string"># * Recursive with the exception that symbolic links are never followed, per the</span></span><br><span class="line"><span class="string"># default behavior of 'find'.</span></span><br><span class="line"><span class="string">SUPERCLEAN_EXTS := .so .a .o .bin .testbin .pb.cc .pb.h _pb2.py .cuo</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Set the sub-targets of the 'everything' target.</span></span><br><span class="line"><span class="string">EVERYTHING_TARGETS := all py<span class="variable">$(PROJECT)</span> test warn lint</span></span><br><span class="line"><span class="string"># Only build matcaffe as part of "</span>everything<span class="string">" if MATLAB_DIR is specified.</span></span><br><span class="line"><span class="string">ifneq (<span class="variable">$(MATLAB_DIR)</span>,)</span></span><br><span class="line"><span class="string">	EVERYTHING_TARGETS += mat<span class="variable">$(PROJECT)</span></span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"># Define build targets</span></span><br><span class="line"><span class="string"># 设置构建的目标</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string">.PHONY: all lib test clean docs linecount lint lintclean tools examples <span class="variable">$(DIST_ALIASES)</span> \</span></span><br><span class="line"><span class="string">	py mat py<span class="variable">$(PROJECT)</span> mat<span class="variable">$(PROJECT)</span> proto runtest \</span></span><br><span class="line"><span class="string">	superclean supercleanlist supercleanfiles warn everything</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">all: lib tools examples</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">lib: <span class="variable">$(STATIC_NAME)</span> <span class="variable">$(DYNAMIC_NAME)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">everything: <span class="variable">$(EVERYTHING_TARGETS)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">linecount:</span></span><br><span class="line"><span class="string">	cloc --read-lang-def=<span class="variable">$(PROJECT)</span>.cloc \</span></span><br><span class="line"><span class="string">		src/<span class="variable">$(PROJECT)</span> include/<span class="variable">$(PROJECT)</span> tools examples \</span></span><br><span class="line"><span class="string">		python matlab</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">lint: <span class="variable">$(EMPTY_LINT_REPORT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">lintclean:</span></span><br><span class="line"><span class="string">	@ <span class="variable">$(RM)</span> -r <span class="variable">$(LINT_OUTPUT_DIR)</span> <span class="variable">$(EMPTY_LINT_REPORT)</span> <span class="variable">$(NONEMPTY_LINT_REPORT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">docs: <span class="variable">$(DOXYGEN_OUTPUT_DIR)</span></span></span><br><span class="line"><span class="string">	@ cd ./docs ; ln -sfn ../<span class="variable">$(DOXYGEN_OUTPUT_DIR)</span>/html doxygen</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(DOXYGEN_OUTPUT_DIR)</span>: <span class="variable">$(DOXYGEN_CONFIG_FILE)</span> <span class="variable">$(DOXYGEN_SOURCES)</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(DOXYGEN_COMMAND)</span> <span class="variable">$(DOXYGEN_CONFIG_FILE)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(EMPTY_LINT_REPORT)</span>: <span class="variable">$(LINT_OUTPUTS)</span> | <span class="variable">$(BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ cat <span class="variable">$(LINT_OUTPUTS)</span> &gt; <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	@ if [ -s "</span><span class="variable">$@</span><span class="string">" ]; then \</span></span><br><span class="line"><span class="string">		cat <span class="variable">$@</span>; \</span></span><br><span class="line"><span class="string">		mv <span class="variable">$@</span> <span class="variable">$(NONEMPTY_LINT_REPORT)</span>; \</span></span><br><span class="line"><span class="string">		echo "</span>Found one or more lint errors.<span class="string">"; \</span></span><br><span class="line"><span class="string">		exit 1; \</span></span><br><span class="line"><span class="string">	  fi; \</span></span><br><span class="line"><span class="string">	  <span class="variable">$(RM)</span> <span class="variable">$(NONEMPTY_LINT_REPORT)</span>; \</span></span><br><span class="line"><span class="string">	  echo "</span>No lint errors!<span class="string">";</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(LINT_OUTPUTS)</span>: <span class="variable">$(LINT_OUTPUT_DIR)</span>/%.lint.txt : % <span class="variable">$(LINT_SCRIPT)</span> | <span class="variable">$(LINT_OUTPUT_DIR)</span></span></span><br><span class="line"><span class="string">	@ mkdir -p $(dir <span class="variable">$@</span>)</span></span><br><span class="line"><span class="string">	@ python <span class="variable">$(LINT_SCRIPT)</span> <span class="variable">$&lt;</span> 2&gt;&amp;1 \</span></span><br><span class="line"><span class="string">		| grep -v "</span>^Done processing <span class="string">" \</span></span><br><span class="line"><span class="string">		| grep -v "</span>^Total errors found: 0<span class="string">" \</span></span><br><span class="line"><span class="string">		&gt; <span class="variable">$@</span> \</span></span><br><span class="line"><span class="string">		|| true</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">test: <span class="variable">$(TEST_ALL_BIN)</span> <span class="variable">$(TEST_ALL_DYNLINK_BIN)</span> <span class="variable">$(TEST_BINS)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">tools: <span class="variable">$(TOOL_BINS)</span> <span class="variable">$(TOOL_BIN_LINKS)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">examples: <span class="variable">$(EXAMPLE_BINS)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">py<span class="variable">$(PROJECT)</span>: py</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">py: $(PY<span class="variable">$(PROJECT)</span>_SO) <span class="variable">$(PROTO_GEN_PY)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#@echo会显示echo后的内容，如果没有@，则会同时显示命令本身。<span class="variable">$@</span>表示所有目标的挨个值，<span class="variable">$&lt;</span>表示</span></span><br><span class="line"><span class="string">#所有依赖目标的挨个值。Q在Makefile.config中定义，Q ?= @ 可以让编译更好看，不显示Q后面的命令</span></span><br><span class="line"><span class="string">$(PY<span class="variable">$(PROJECT)</span>_SO): $(PY<span class="variable">$(PROJECT)</span>_SRC) $(PY<span class="variable">$(PROJECT)</span>_HXX) | <span class="variable">$(DYNAMIC_NAME)</span></span></span><br><span class="line"><span class="string">	@ echo CXX/LD -o <span class="variable">$@</span> <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> -shared -o <span class="variable">$@</span> $(PY<span class="variable">$(PROJECT)</span>_SRC) \</span></span><br><span class="line"><span class="string">		-o <span class="variable">$@</span> <span class="variable">$(LINKFLAGS)</span> -l<span class="variable">$(LIBRARY_NAME)</span> <span class="variable">$(PYTHON_LDFLAGS)</span> \</span></span><br><span class="line"><span class="string">		-Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../../build/lib</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">mat<span class="variable">$(PROJECT)</span>: mat</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">mat: $(MAT<span class="variable">$(PROJECT)</span>_SO)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$(MAT<span class="variable">$(PROJECT)</span>_SO): $(MAT<span class="variable">$(PROJECT)</span>_SRC) <span class="variable">$(STATIC_NAME)</span></span></span><br><span class="line"><span class="string">	@ if [ -z "</span><span class="variable">$(MATLAB_DIR)</span><span class="string">" ]; then \</span></span><br><span class="line"><span class="string">		echo "</span>MATLAB_DIR must be specified in <span class="variable">$(CONFIG_FILE)</span><span class="string">" \</span></span><br><span class="line"><span class="string">			"</span>to build mat<span class="variable">$(PROJECT)</span>.<span class="string">"; \</span></span><br><span class="line"><span class="string">		exit 1; \</span></span><br><span class="line"><span class="string">	fi</span></span><br><span class="line"><span class="string">	@ echo MEX <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(MATLAB_DIR)</span>/bin/mex $(MAT<span class="variable">$(PROJECT)</span>_SRC) \</span></span><br><span class="line"><span class="string">			CXX="</span><span class="variable">$(CXX)</span><span class="string">" \</span></span><br><span class="line"><span class="string">			CXXFLAGS="</span>\$$CXXFLAGS <span class="variable">$(MATLAB_CXXFLAGS)</span><span class="string">" \</span></span><br><span class="line"><span class="string">			CXXLIBS="</span>\$$CXXLIBS <span class="variable">$(STATIC_LINK_COMMAND)</span> <span class="variable">$(LDFLAGS)</span><span class="string">" -output <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	@ if [ -f "</span><span class="variable">$(PROJECT)</span>_.d<span class="string">" ]; then \</span></span><br><span class="line"><span class="string">		mv -f <span class="variable">$(PROJECT)</span>_.d <span class="variable">$(BUILD_DIR)</span>/$&#123;MAT<span class="variable">$(PROJECT)</span>_SO:.<span class="variable">$(MAT_SO_EXT)</span>=.d&#125;; \</span></span><br><span class="line"><span class="string">	fi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">runtest: <span class="variable">$(TEST_ALL_BIN)</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(TOOL_BUILD_DIR)</span>/caffe</span></span><br><span class="line"><span class="string">	<span class="variable">$(TEST_ALL_BIN)</span> <span class="variable">$(TEST_GPUID)</span> --gtest_shuffle <span class="variable">$(TEST_FILTER)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">pytest: py</span></span><br><span class="line"><span class="string">	cd python; python -m unittest discover -s caffe/test</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">mattest: mat</span></span><br><span class="line"><span class="string">	cd matlab; <span class="variable">$(MATLAB_DIR)</span>/bin/matlab -nodisplay -r 'caffe.run_tests(), exit()'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">warn: <span class="variable">$(EMPTY_WARN_REPORT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(EMPTY_WARN_REPORT)</span>: <span class="variable">$(ALL_WARNS)</span> | <span class="variable">$(BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ cat <span class="variable">$(ALL_WARNS)</span> &gt; <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	@ if [ -s "</span><span class="variable">$@</span><span class="string">" ]; then \</span></span><br><span class="line"><span class="string">		cat <span class="variable">$@</span>; \</span></span><br><span class="line"><span class="string">		mv <span class="variable">$@</span> <span class="variable">$(NONEMPTY_WARN_REPORT)</span>; \</span></span><br><span class="line"><span class="string">		echo "</span>Compiler produced one or more warnings.<span class="string">"; \</span></span><br><span class="line"><span class="string">		exit 1; \</span></span><br><span class="line"><span class="string">	  fi; \</span></span><br><span class="line"><span class="string">	  <span class="variable">$(RM)</span> <span class="variable">$(NONEMPTY_WARN_REPORT)</span>; \</span></span><br><span class="line"><span class="string">	  echo "</span>No compiler warnings!<span class="string">";</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(ALL_WARNS)</span>: %.o.<span class="variable">$(WARNS_EXT)</span> : %.o</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(BUILD_DIR_LINK)</span>: <span class="variable">$(BUILD_DIR)</span>/.linked</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Create a target "</span>.linked<span class="string">" in this BUILD_DIR to tell Make that the "</span>build<span class="string">" link</span></span><br><span class="line"><span class="string"># is currently correct, then delete the one in the OTHER_BUILD_DIR in case it</span></span><br><span class="line"><span class="string"># exists and <span class="variable">$(DEBUG)</span> is toggled later.</span></span><br><span class="line"><span class="string"><span class="variable">$(BUILD_DIR)</span>/.linked:</span></span><br><span class="line"><span class="string">	@ mkdir -p <span class="variable">$(BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ <span class="variable">$(RM)</span> <span class="variable">$(OTHER_BUILD_DIR)</span>/.linked</span></span><br><span class="line"><span class="string">	@ <span class="variable">$(RM)</span> -r <span class="variable">$(BUILD_DIR_LINK)</span></span></span><br><span class="line"><span class="string">	@ ln -s <span class="variable">$(BUILD_DIR)</span> <span class="variable">$(BUILD_DIR_LINK)</span></span></span><br><span class="line"><span class="string">	@ touch <span class="variable">$@</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(ALL_BUILD_DIRS)</span>: | <span class="variable">$(BUILD_DIR_LINK)</span></span></span><br><span class="line"><span class="string">	@ mkdir -p <span class="variable">$@</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(DYNAMIC_NAME)</span>: <span class="variable">$(OBJS)</span> | <span class="variable">$(LIB_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo LD -o <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> -shared -o <span class="variable">$@</span> <span class="variable">$(OBJS)</span> <span class="variable">$(VERSIONFLAGS)</span> <span class="variable">$(LINKFLAGS)</span> <span class="variable">$(LDFLAGS)</span></span></span><br><span class="line"><span class="string">	@ cd <span class="variable">$(BUILD_DIR)</span>/lib; rm -f <span class="variable">$(DYNAMIC_NAME_SHORT)</span>;   ln -s <span class="variable">$(DYNAMIC_VERSIONED_NAME_SHORT)</span> <span class="variable">$(DYNAMIC_NAME_SHORT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(STATIC_NAME)</span>: <span class="variable">$(OBJS)</span> | <span class="variable">$(LIB_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo AR -o <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span>ar rcs <span class="variable">$@</span> <span class="variable">$(OBJS)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(BUILD_DIR)</span>/%.o: %.cpp <span class="variable">$(PROTO_GEN_HEADER)</span> | <span class="variable">$(ALL_BUILD_DIRS)</span></span></span><br><span class="line"><span class="string">	@ echo CXX <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> <span class="variable">$&lt;</span> <span class="variable">$(CXXFLAGS)</span> -c -o <span class="variable">$@</span> 2&gt; <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span> \</span></span><br><span class="line"><span class="string">		|| (cat <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span>; exit 1)</span></span><br><span class="line"><span class="string">	@ cat <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(PROTO_BUILD_DIR)</span>/%.pb.o: <span class="variable">$(PROTO_BUILD_DIR)</span>/%.pb.cc <span class="variable">$(PROTO_GEN_HEADER)</span> \</span></span><br><span class="line"><span class="string">		| <span class="variable">$(PROTO_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo CXX <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> <span class="variable">$&lt;</span> <span class="variable">$(CXXFLAGS)</span> -c -o <span class="variable">$@</span> 2&gt; <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span> \</span></span><br><span class="line"><span class="string">		|| (cat <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span>; exit 1)</span></span><br><span class="line"><span class="string">	@ cat <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(BUILD_DIR)</span>/cuda/%.o: %.cu | <span class="variable">$(ALL_BUILD_DIRS)</span></span></span><br><span class="line"><span class="string">	@ echo NVCC <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CUDA_DIR)</span>/bin/nvcc <span class="variable">$(NVCCFLAGS)</span> <span class="variable">$(CUDA_ARCH)</span> -M <span class="variable">$&lt;</span> -o $&#123;@:.o=.d&#125; \</span></span><br><span class="line"><span class="string">		-odir $(@D)</span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CUDA_DIR)</span>/bin/nvcc <span class="variable">$(NVCCFLAGS)</span> <span class="variable">$(CUDA_ARCH)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span> 2&gt; <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span> \</span></span><br><span class="line"><span class="string">		|| (cat <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span>; exit 1)</span></span><br><span class="line"><span class="string">	@ cat <span class="variable">$@</span>.<span class="variable">$(WARNS_EXT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(TEST_ALL_BIN)</span>: <span class="variable">$(TEST_MAIN_SRC)</span> <span class="variable">$(TEST_OBJS)</span> <span class="variable">$(GTEST_OBJ)</span> \</span></span><br><span class="line"><span class="string">		| <span class="variable">$(DYNAMIC_NAME)</span> <span class="variable">$(TEST_BIN_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo CXX/LD -o <span class="variable">$@</span> <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> <span class="variable">$(TEST_MAIN_SRC)</span> <span class="variable">$(TEST_OBJS)</span> <span class="variable">$(GTEST_OBJ)</span> \</span></span><br><span class="line"><span class="string">		-o <span class="variable">$@</span> <span class="variable">$(LINKFLAGS)</span> <span class="variable">$(LDFLAGS)</span> -l<span class="variable">$(LIBRARY_NAME)</span> -Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../lib</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(TEST_CU_BINS)</span>: <span class="variable">$(TEST_BIN_DIR)</span>/%.testbin: <span class="variable">$(TEST_CU_BUILD_DIR)</span>/%.o \</span></span><br><span class="line"><span class="string">	<span class="variable">$(GTEST_OBJ)</span> | <span class="variable">$(DYNAMIC_NAME)</span> <span class="variable">$(TEST_BIN_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo LD <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> <span class="variable">$(TEST_MAIN_SRC)</span> <span class="variable">$&lt;</span> <span class="variable">$(GTEST_OBJ)</span> \</span></span><br><span class="line"><span class="string">		-o <span class="variable">$@</span> <span class="variable">$(LINKFLAGS)</span> <span class="variable">$(LDFLAGS)</span> -l<span class="variable">$(LIBRARY_NAME)</span> -Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../lib</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(TEST_CXX_BINS)</span>: <span class="variable">$(TEST_BIN_DIR)</span>/%.testbin: <span class="variable">$(TEST_CXX_BUILD_DIR)</span>/%.o \</span></span><br><span class="line"><span class="string">	<span class="variable">$(GTEST_OBJ)</span> | <span class="variable">$(DYNAMIC_NAME)</span> <span class="variable">$(TEST_BIN_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo LD <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> <span class="variable">$(TEST_MAIN_SRC)</span> <span class="variable">$&lt;</span> <span class="variable">$(GTEST_OBJ)</span> \</span></span><br><span class="line"><span class="string">		-o <span class="variable">$@</span> <span class="variable">$(LINKFLAGS)</span> <span class="variable">$(LDFLAGS)</span> -l<span class="variable">$(LIBRARY_NAME)</span> -Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../lib</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Target for extension-less symlinks to tool binaries with extension '*.bin'.</span></span><br><span class="line"><span class="string"><span class="variable">$(TOOL_BUILD_DIR)</span>/%: <span class="variable">$(TOOL_BUILD_DIR)</span>/%.bin | <span class="variable">$(TOOL_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ <span class="variable">$(RM)</span> <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	@ ln -s $(notdir <span class="variable">$&lt;</span>) <span class="variable">$@</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(TOOL_BINS)</span>: %.bin : %.o | <span class="variable">$(DYNAMIC_NAME)</span></span></span><br><span class="line"><span class="string">	@ echo CXX/LD -o <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> <span class="variable">$&lt;</span> -o <span class="variable">$@</span> <span class="variable">$(LINKFLAGS)</span> -l<span class="variable">$(LIBRARY_NAME)</span> <span class="variable">$(LDFLAGS)</span> \</span></span><br><span class="line"><span class="string">		-Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../lib</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(EXAMPLE_BINS)</span>: %.bin : %.o | <span class="variable">$(DYNAMIC_NAME)</span></span></span><br><span class="line"><span class="string">	@ echo CXX/LD -o <span class="variable">$@</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span><span class="variable">$(CXX)</span> <span class="variable">$&lt;</span> -o <span class="variable">$@</span> <span class="variable">$(LINKFLAGS)</span> -l<span class="variable">$(LIBRARY_NAME)</span> <span class="variable">$(LDFLAGS)</span> \</span></span><br><span class="line"><span class="string">		-Wl,-rpath,<span class="variable">$(ORIGIN)</span>/../../lib</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">proto: <span class="variable">$(PROTO_GEN_CC)</span> <span class="variable">$(PROTO_GEN_HEADER)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(PROTO_BUILD_DIR)</span>/%.pb.cc <span class="variable">$(PROTO_BUILD_DIR)</span>/%.pb.h : \</span></span><br><span class="line"><span class="string">		<span class="variable">$(PROTO_SRC_DIR)</span>/%.proto | <span class="variable">$(PROTO_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo PROTOC <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span>protoc --proto_path=<span class="variable">$(PROTO_SRC_DIR)</span> --cpp_out=<span class="variable">$(PROTO_BUILD_DIR)</span> <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(PY_PROTO_BUILD_DIR)</span>/%_pb2.py : <span class="variable">$(PROTO_SRC_DIR)</span>/%.proto \</span></span><br><span class="line"><span class="string">		<span class="variable">$(PY_PROTO_INIT)</span> | <span class="variable">$(PY_PROTO_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@ echo PROTOC \(python\) <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string">	<span class="variable">$(Q)</span>protoc --proto_path=src --python_out=python <span class="variable">$&lt;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(PY_PROTO_INIT)</span>: | <span class="variable">$(PY_PROTO_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	touch <span class="variable">$(PY_PROTO_INIT)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">clean:</span></span><br><span class="line"><span class="string">	@- <span class="variable">$(RM)</span> -rf <span class="variable">$(ALL_BUILD_DIRS)</span></span></span><br><span class="line"><span class="string">	@- <span class="variable">$(RM)</span> -rf <span class="variable">$(OTHER_BUILD_DIR)</span></span></span><br><span class="line"><span class="string">	@- <span class="variable">$(RM)</span> -rf <span class="variable">$(BUILD_DIR_LINK)</span></span></span><br><span class="line"><span class="string">	@- <span class="variable">$(RM)</span> -rf <span class="variable">$(DISTRIBUTE_DIR)</span></span></span><br><span class="line"><span class="string">	@- <span class="variable">$(RM)</span> $(PY<span class="variable">$(PROJECT)</span>_SO)</span></span><br><span class="line"><span class="string">	@- <span class="variable">$(RM)</span> $(MAT<span class="variable">$(PROJECT)</span>_SO)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">supercleanfiles:</span></span><br><span class="line"><span class="string">	$(eval SUPERCLEAN_FILES := $(strip \</span></span><br><span class="line"><span class="string">			$(foreach ext,<span class="variable">$(SUPERCLEAN_EXTS)</span>, $(shell find . -name '*<span class="variable">$(ext)</span>' \</span></span><br><span class="line"><span class="string">			-not -path './data/*'))))</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">supercleanlist: supercleanfiles</span></span><br><span class="line"><span class="string">	@ \</span></span><br><span class="line"><span class="string">	if [ -z "</span><span class="variable">$(SUPERCLEAN_FILES)</span><span class="string">" ]; then \</span></span><br><span class="line"><span class="string">		echo "</span>No generated files found.<span class="string">"; \</span></span><br><span class="line"><span class="string">	else \</span></span><br><span class="line"><span class="string">		echo <span class="variable">$(SUPERCLEAN_FILES)</span> | tr ' ' '\n'; \</span></span><br><span class="line"><span class="string">	fi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">superclean: clean supercleanfiles</span></span><br><span class="line"><span class="string">	@ \</span></span><br><span class="line"><span class="string">	if [ -z "</span><span class="variable">$(SUPERCLEAN_FILES)</span><span class="string">" ]; then \</span></span><br><span class="line"><span class="string">		echo "</span>No generated files found.<span class="string">"; \</span></span><br><span class="line"><span class="string">	else \</span></span><br><span class="line"><span class="string">		echo "</span>Deleting the following generated files:<span class="string">"; \</span></span><br><span class="line"><span class="string">		echo <span class="variable">$(SUPERCLEAN_FILES)</span> | tr ' ' '\n'; \</span></span><br><span class="line"><span class="string">		<span class="variable">$(RM)</span> <span class="variable">$(SUPERCLEAN_FILES)</span>; \</span></span><br><span class="line"><span class="string">	fi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(DIST_ALIASES)</span>: <span class="variable">$(DISTRIBUTE_DIR)</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"><span class="variable">$(DISTRIBUTE_DIR)</span>: all py | <span class="variable">$(DISTRIBUTE_SUBDIRS)</span></span></span><br><span class="line"><span class="string">	# add proto</span></span><br><span class="line"><span class="string">	cp -r src/caffe/proto <span class="variable">$(DISTRIBUTE_DIR)</span>/</span></span><br><span class="line"><span class="string">	# add include</span></span><br><span class="line"><span class="string">	cp -r include <span class="variable">$(DISTRIBUTE_DIR)</span>/</span></span><br><span class="line"><span class="string">	mkdir -p <span class="variable">$(DISTRIBUTE_DIR)</span>/include/caffe/proto</span></span><br><span class="line"><span class="string">	cp <span class="variable">$(PROTO_GEN_HEADER_SRCS)</span> <span class="variable">$(DISTRIBUTE_DIR)</span>/include/caffe/proto</span></span><br><span class="line"><span class="string">	# add tool and example binaries</span></span><br><span class="line"><span class="string">	cp <span class="variable">$(TOOL_BINS)</span> <span class="variable">$(DISTRIBUTE_DIR)</span>/bin</span></span><br><span class="line"><span class="string">	cp <span class="variable">$(EXAMPLE_BINS)</span> <span class="variable">$(DISTRIBUTE_DIR)</span>/bin</span></span><br><span class="line"><span class="string">	# add libraries</span></span><br><span class="line"><span class="string">	cp <span class="variable">$(STATIC_NAME)</span> <span class="variable">$(DISTRIBUTE_DIR)</span>/lib</span></span><br><span class="line"><span class="string">	install -m 644 <span class="variable">$(DYNAMIC_NAME)</span> <span class="variable">$(DISTRIBUTE_DIR)</span>/lib</span></span><br><span class="line"><span class="string">	cd <span class="variable">$(DISTRIBUTE_DIR)</span>/lib; rm -f <span class="variable">$(DYNAMIC_NAME_SHORT)</span>;   ln -s <span class="variable">$(DYNAMIC_VERSIONED_NAME_SHORT)</span> <span class="variable">$(DYNAMIC_NAME_SHORT)</span></span></span><br><span class="line"><span class="string">	# add python - it's not the standard way, indeed...</span></span><br><span class="line"><span class="string">	cp -r python <span class="variable">$(DISTRIBUTE_DIR)</span>/</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">-include <span class="variable">$(DEPS)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>为什么执行make all的时候，是先开始生成protoc的文件？</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 jaytp@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a href="javascript:void(0)" target="_blank" rel="noopener" class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>caffe的Makefile编译体系</p>
+    
+    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="linqinghuang">linqinghuang</a></p>
+    <p><span class="copy-title">发布时间:</span>2020-02-04, 07:51:05</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-05, 08:24:24</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/04/caffe/caffe%E7%9A%84%E7%BC%96%E8%AF%91%E4%BD%93%E7%B3%BB/" title="caffe的Makefile编译体系">http://yoursite.com/2020/02/04/caffe/caffe%E7%9A%84%E7%BC%96%E8%AF%91%E4%BD%93%E7%B3%BB/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2019 Yelog</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" href="javascript:void(0)" target="_blank" rel="noopener"></a>
+    </div>
+</div>
+<div class="acParent"></div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close" href="javascript:void(0)" target="_blank" rel="noopener" onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.0.1" ></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': [],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+        .nav .hide-list.fullscreen {
+            left: 492px
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
