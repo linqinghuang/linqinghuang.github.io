@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="icon" href="/img/avatar.jpg">
+<link rel="icon" href="/img/lin.png">
 
 <link href="/css/style.css?v=1.0.1" rel="stylesheet">
 
@@ -53,7 +53,7 @@
 <aside class="nav">
     <div class="nav-left">
         <a href="/" class="avatar_target">
-    <img class="avatar" src="/img/avatar.jpg" />
+    <img class="avatar" src="/img/lin.png" />
 </a>
 <div class="author">
     <span>linqinghuang</span>
@@ -74,9 +74,8 @@
     <div class="menus">
     
     
-    
     </div>
-    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+    <div><a class="about  site_url"  href="/about">关于</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="5">
 
@@ -94,8 +93,6 @@
     </div>
     <div class="friends-content">
         <ul>
-            
-            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
             
         </ul>
     </div>
@@ -200,6 +197,17 @@
         </span>
         
         
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
     </div>
     
     <div class="toc-ref">
@@ -229,7 +237,7 @@
 <p>为什么执行make all的时候，是先开始生成protoc的文件？</p>
 
       
-       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论 </span>
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证 </span>
     </div>
 </article>
 
@@ -247,6 +255,27 @@
     </p>
 </div>
 
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '',
+            clientSecret: '',
+            repo: 'linqinghuang.github.io',
+            owner: 'linqinghuang',
+            admin: ['linqinghuang'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
 
 
 
