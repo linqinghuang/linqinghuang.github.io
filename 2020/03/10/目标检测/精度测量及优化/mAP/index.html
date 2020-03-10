@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>gdb基础 | linqinghuang</title>
-  <meta name="keywords" content=" gdb , 调试 ">
-  <meta name="description" content="gdb基础 | linqinghuang">
+  <title>常见目标检测算法 | linqinghuang</title>
+  <meta name="keywords" content=" 目标检测 , 精度测量 , mAP ">
+  <meta name="description" content="常见目标检测算法 | linqinghuang">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="gdb是什么怎么使用gdb断点打印条件">
 <meta name="keywords" content="gdb,调试">
@@ -244,9 +244,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-程序编译调试/gdb使用/gdb基础" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-目标检测/精度测量及优化/mAP" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">gdb基础</h1>
+        <h1 class="article-title">常见目标检测算法</h1>
     
     <div class="article-meta">
         
@@ -254,23 +254,25 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="程序编译调试 noopener">程序编译调试</a>
+                <a href="javascript:" target="_blank" data-rel="目标检测 - 精度测量及优化 noopener">目标检测 - 精度测量及优化</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">gdb</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color5">目标检测</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">调试</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color5">精度测量</a>
+            
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">mAP</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-11 00:07:21'>2020-03-10 23:41</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-11 00:17:41'>2020-03-10 00:13</time>
         
     </div>
     <div class="article-meta">
@@ -303,7 +305,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gdb是什么"><span class="toc-text">gdb是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#怎么使用gdb"><span class="toc-text">怎么使用gdb</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#断点"><span class="toc-text">断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打印"><span class="toc-text">打印</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件"><span class="toc-text">条件</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#mAP的计算方式"><span class="toc-text">mAP的计算方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是mAP"><span class="toc-text">什么是mAP?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#真正例、真负例、假正例、假负例"><span class="toc-text">真正例、真负例、假正例、假负例</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -319,7 +321,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="gdb是什么"><a href="#gdb是什么" class="headerlink" title="gdb是什么"></a>gdb是什么</h1><h1 id="怎么使用gdb"><a href="#怎么使用gdb" class="headerlink" title="怎么使用gdb"></a>怎么使用gdb</h1><h2 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h2><h2 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h2><h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2>
+        <h3 id="mAP的计算方式"><a href="#mAP的计算方式" class="headerlink" title="mAP的计算方式"></a>mAP的计算方式</h3><h4 id="什么是mAP"><a href="#什么是mAP" class="headerlink" title="什么是mAP?"></a>什么是mAP?</h4><p>mAP(mean average precision)平均精度均值，是用来衡量目标检测算法的精确度的一个指标。</p>
+<h4 id="真正例、真负例、假正例、假负例"><a href="#真正例、真负例、假正例、假负例" class="headerlink" title="真正例、真负例、假正例、假负例"></a>真正例、真负例、假正例、假负例</h4><p>真假对应英语true和false、正例和负例则对应英语positive和negative。真假用于描述目标检测结果的正确与否，正例和负例<br>则用于描述预测倾向，即“认为是”和“认为不是”。</p>
+<p>举一个实际的例子</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证 </span>
     </div>
@@ -328,12 +333,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>gdb基础</p>
+    <p><span class="copy-title">文章标题:</span>常见目标检测算法</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="linqinghuang">linqinghuang</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-03-10, 23:41:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-11, 00:07:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/gdb%E5%9F%BA%E7%A1%80/" title="gdb基础">http://yoursite.com/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/gdb%E5%9F%BA%E7%A1%80/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-10, 00:13:00</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-11, 00:17:41</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/10/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/%E7%B2%BE%E5%BA%A6%E6%B5%8B%E9%87%8F%E5%8F%8A%E4%BC%98%E5%8C%96/mAP/" title="常见目标检测算法">http://yoursite.com/2020/03/10/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/%E7%B2%BE%E5%BA%A6%E6%B5%8B%E9%87%8F%E5%8F%8A%E4%BC%98%E5%8C%96/mAP/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

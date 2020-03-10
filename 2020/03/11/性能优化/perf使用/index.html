@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>gdb基础 | linqinghuang</title>
-  <meta name="keywords" content=" gdb , 调试 ">
-  <meta name="description" content="gdb基础 | linqinghuang">
+  <title>perf使用 | linqinghuang</title>
+  <meta name="keywords" content=" 性能优化 ">
+  <meta name="description" content="perf使用 | linqinghuang">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="gdb是什么怎么使用gdb断点打印条件">
 <meta name="keywords" content="gdb,调试">
@@ -244,9 +244,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-程序编译调试/gdb使用/gdb基础" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-性能优化/perf使用" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">gdb基础</h1>
+        <h1 class="article-title">perf使用</h1>
     
     <div class="article-meta">
         
@@ -254,23 +254,21 @@
         
         <span class="book">
             
-                <a href="javascript:" target="_blank" data-rel="程序编译调试 noopener">程序编译调试</a>
+                <a href="javascript:" target="_blank" data-rel="性能优化 noopener">性能优化</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">gdb</a>
-            
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">调试</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color5">性能优化</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-11 00:07:21'>2020-03-10 23:41</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-11 00:08:46'>2020-03-11 00:08</time>
         
     </div>
     <div class="article-meta">
@@ -303,7 +301,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gdb是什么"><span class="toc-text">gdb是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#怎么使用gdb"><span class="toc-text">怎么使用gdb</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#断点"><span class="toc-text">断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打印"><span class="toc-text">打印</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件"><span class="toc-text">条件</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#能力定位"><span class="toc-text">能力定位</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -319,7 +317,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="gdb是什么"><a href="#gdb是什么" class="headerlink" title="gdb是什么"></a>gdb是什么</h1><h1 id="怎么使用gdb"><a href="#怎么使用gdb" class="headerlink" title="怎么使用gdb"></a>怎么使用gdb</h1><h2 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h2><h2 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h2><h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2>
+        <h1 id="能力定位"><a href="#能力定位" class="headerlink" title="能力定位"></a>能力定位</h1><p>perf工具常用于性能优化</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证 </span>
     </div>
@@ -328,12 +327,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>gdb基础</p>
+    <p><span class="copy-title">文章标题:</span>perf使用</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="linqinghuang">linqinghuang</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-03-10, 23:41:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-11, 00:07:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/gdb%E5%9F%BA%E7%A1%80/" title="gdb基础">http://yoursite.com/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/gdb%E5%9F%BA%E7%A1%80/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-11, 00:08:00</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-11, 00:08:46</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/11/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/perf%E4%BD%BF%E7%94%A8/" title="perf使用">http://yoursite.com/2020/03/11/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/perf%E4%BD%BF%E7%94%A8/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
