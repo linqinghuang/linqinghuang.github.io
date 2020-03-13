@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>gcc和gdb基础 | linqinghuang</title>
-  <meta name="keywords" content=" gdb , 调试 ">
-  <meta name="description" content="gcc和gdb基础 | linqinghuang">
+  <title>g++常见的编译参数 | linqinghuang</title>
+  <meta name="keywords" content=" g++ , 编译 ">
+  <meta name="description" content="g++常见的编译参数 | linqinghuang">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="能力定位perf工具常用于性能优化">
 <meta name="keywords" content="性能优化">
@@ -264,9 +264,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-程序编译调试/gdb使用/gdb基础" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-程序编译调试/gdb使用/g++编译常见的编译参数" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">gcc和gdb基础</h1>
+        <h1 class="article-title">g++常见的编译参数</h1>
     
     <div class="article-meta">
         
@@ -281,16 +281,16 @@
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color4">gdb</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">g++</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color3">调试</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">编译</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-12 01:49:11'>2020-03-10 23:41</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-13 23:52:18'>2020-03-10 23:41</time>
         
     </div>
     <div class="article-meta">
@@ -323,7 +323,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-GCC和GDB是什么"><span class="toc-text">1. GCC和GDB是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-简介"><span class="toc-text">1.1 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-官方指导手册"><span class="toc-text">1.2 官方指导手册</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-怎么使用GDB"><span class="toc-text">2. 怎么使用GDB</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-研究思路"><span class="toc-text">1. 研究思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-目录翻译"><span class="toc-text">1.1 目录翻译</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-几个有趣的知识点"><span class="toc-text">2. 几个有趣的知识点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-常用编译参数"><span class="toc-text">3. 常用编译参数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#告警相关"><span class="toc-text">告警相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件生成相关"><span class="toc-text">文件生成相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接相关"><span class="toc-text">链接相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -341,87 +341,152 @@
       
         <font face="楷体">
 
-<h1 id="1-GCC和GDB是什么"><a href="#1-GCC和GDB是什么" class="headerlink" title="1. GCC和GDB是什么"></a>1. GCC和GDB是什么</h1><h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><p>GCC全称The GNU Compiler Collection，是GNU项目中一个编译系统。GCC支持多种语言在多种平台上的编<br>译。通常GCC<br>运行与类Unix系统上，但通过MindGW，也可以在windows上使用GCC。</p>
-<p>GDB全称The GNU Debugger，是GNU项目中一个可以在多种类Unix系统平台上运行的debugger。开发者可以<br>通过GDB对<br>多种语言进行调试，包括C/C++/汇编等。GCC和GDB通常放在一起使用。</p>
-<h2 id="1-2-官方指导手册"><a href="#1-2-官方指导手册" class="headerlink" title="1.2 官方指导手册"></a>1.2 官方指导手册</h2><p>GCC手册的官网下载连接：<a href="https://gcc.gnu.org/onlinedocs/9.2.0/" target="_blank" rel="noopener">GCC Mannual</a><br><br>GDB手册的官网下载连接：<a href="http://sourceware.org/gdb/current/onlinedocs/gdb/" target="_blank" rel="noopener">GDB Online Mannual </a><br><br>GDB官方书籍：《Debugging With GDB》</p>
-<h1 id="2-怎么使用GDB"><a href="#2-怎么使用GDB" class="headerlink" title="2. 怎么使用GDB"></a>2. 怎么使用GDB</h1><p>GDB通常和gcc/g++编译工具一起使用。首先来一个编写一个简单的cpp程序test.cpp，代码如下所示：</p>
-<pre><code class="cpp">#include &lt;iostream&gt;
-using namespace std;
-int main(int argc, char* argv[])
-{
-    int a = 0;
-    int b = 0;
-    b = a + 1;
-    while(b &lt;= 5)
-    {
-            b += 1;
-    }
-
-    return 0
-}</code></pre>
-<p>使用如下命令对程序进行编译：</p>
-<pre><code class="sh">g++ -g test.cpp -o test</code></pre>
-<p>gcc的 “-g”选项可以打开程序的调试选项，“-o”则是将输出存储到指定文件上。生成的名为test可执行文件<br>带有GDB<br>可用的调试信息。使用GDB命令，对test程序进行调试。</p>
-<pre><code class="sh">gdb test</code></pre>
-<p>效果如下所示：</p>
-<pre><code class="sh">lin@lin-Inspiron-5437:~/experiment/gdb$ gdb test
-GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git
-Copyright (C) 2018 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;
-and &quot;show warranty&quot; for details.
-This GDB was configured as &quot;x86_64-linux-gnu&quot;.
-Type &quot;show configuration&quot; for configuration details.
-For bug reporting instructions, please see:
-&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
-Find the GDB manual and other documentation resources online at:
-&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
-For help, type &quot;help&quot;.
-Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...
-Reading symbols from test...done.
-(gdb)</code></pre>
-<p>输入命令“l”，显示当前代码位置。</p>
-<pre><code class="sh">(gdb) l
-1       #include &lt;iostream&gt;
-2       using namespace std;
-3       int main(int argc, char* argv[])
-4       {
-5           int a = 0;
-6           int b = 0;
-7           b = a + 1;
-8           while(b &lt;= 5)
-9           {
-10                  b += 1;
-(gdb)</code></pre>
-<p>使用“b”命令，对代码设置断点，比如这里对test.cpp的第5行设置了断点。</p>
-<pre><code class="sh">(gdb) b test.cpp:5
-Breakpoint 1 at 0x745: file test.cpp, line 5.
-(gdb)</code></pre>
-<p>使用“r”命令，让程序开始运行。可以看到程序在第5行的位置停下了</p>
-<pre><code class="sh">(gdb) r
-Starting program: /home/lin/experiment/gdb/test
-
-Breakpoint 1, main (argc=1, argv=0x7fffffffe3d8) at test.cpp:5
-5           int a = 0;
-(gdb)</code></pre>
-<p>使用“n”命令，使程序继续往下走一行。</p>
-<pre><code class="sh">(gdb) n
-6           int b = 0;
-(gdb)</code></pre>
-<p>使用条件断点命令，设置当b == 3时，在第10行中断。用“c”命令，使程序继续运行。<br><br>可以看到程序在第10行停下，用“p”命令打印b当前值，确实为3。</p>
-<pre><code class="sh">(gdb) b test.cpp:10 if b==3
-Breakpoint 2 at 0x555555554762: file test.cpp, line 10.
-(gdb) c
-Continuing.
-
-Breakpoint 2, main (argc=1, argv=0x7fffffffe3d8) at test.cpp:10
-10                  b += 1;
-(gdb) p b
-$1 = 3
-(gdb)</code></pre>
-<p>掌握这些调试命令，可以满足大多数的调试需求。本文仅介绍GCC编译和GDB调试的基础。进阶内容<br><br>请参考下文<br></p></font><p></p>
-
+<h1 id="1-研究思路"><a href="#1-研究思路" class="headerlink" title="1. 研究思路"></a>1. 研究思路</h1><p>由于信息传递会有不可避免的失真，所以研究g++最好的资料就是GNU官网提供的手册。<br>《Using the GNU Compiler Collection》<br><br>这份资料详细记录了GNU编译器所有功能选项，总共992页，内容太多。人的精力是有限的，知识的海洋是无限的。<br><br>本文翻译罗列手册（版本为9.2.0）的目录，摘录几个有趣的知识点，介绍几个常用编译参数。</p>
+<h2 id="1-1-目录翻译"><a href="#1-1-目录翻译" class="headerlink" title="1.1 目录翻译"></a>1.1 目录翻译</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>翻译</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Introduction</td>
+<td>介绍</td>
+<td>介绍了本手册所覆盖内容</td>
+</tr>
+<tr>
+<td>Programming Languages Supported by GCC</td>
+<td>GCC所支持的编程语言</td>
+<td>编程语言支持表，主要还是C系，我C系无敌</td>
+</tr>
+<tr>
+<td>Language Standards Supported by GCC</td>
+<td>GCC所支持的语言标准</td>
+<td>阐述各种语言的ISO标准</td>
+</tr>
+<tr>
+<td>GCC Command Options</td>
+<td>GCC 命令行选项</td>
+<td>介绍了诸多命令行选项的功能</td>
+</tr>
+<tr>
+<td>C Implementation-Defined Behavior</td>
+<td>介绍</td>
+<td>无</td>
+</tr>
+<tr>
+<td>C++ Implementation-Defined Behavior</td>
+<td>介绍</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Extensions to the C Language Family</td>
+<td>C语言家族扩展</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Extensions to the C++ Language</td>
+<td>C++语言家族扩展</td>
+<td>无</td>
+</tr>
+<tr>
+<td>GNU Objective-C Features</td>
+<td>OC的一些特性</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Binary Compatibility</td>
+<td>二进制兼容性</td>
+<td>无</td>
+</tr>
+<tr>
+<td>gcov a Test Coverage Program</td>
+<td>gcov工具</td>
+<td>配合gcc可以进行代码覆盖率测试</td>
+</tr>
+<tr>
+<td>gcov-tool an Offline Gcda Profile Processing Tool</td>
+<td>gcov-tool</td>
+<td>无</td>
+</tr>
+<tr>
+<td>gcov-dump—an Offline Gcda and Gcno Profile Dump Tool</td>
+<td>介绍</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Known Causes of Trouble with GCC</td>
+<td>介绍</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Reporting Bugs</td>
+<td>问题报告</td>
+<td>无</td>
+</tr>
+<tr>
+<td>How To Get Help with GCC</td>
+<td>如何帮助GCC</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Contributing to GCC Development</td>
+<td>参与GCC开发</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Funding Free Software</td>
+<td>自由软件基金会</td>
+<td>无</td>
+</tr>
+<tr>
+<td>The GNU Project and GNU/Linux</td>
+<td>GNU项目和GNU/Linux</td>
+<td>无</td>
+</tr>
+<tr>
+<td>GNU General Public License</td>
+<td>许可</td>
+<td>无</td>
+</tr>
+<tr>
+<td>GNU Free Documentation License</td>
+<td>许可</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Contributors to GCC</td>
+<td>GCC的贡献者名单</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Option Index</td>
+<td>配置选项索引</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Keyword Index</td>
+<td>关键字索引</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<h1 id="2-几个有趣的知识点"><a href="#2-几个有趣的知识点" class="headerlink" title="2. 几个有趣的知识点"></a>2. 几个有趣的知识点</h1><ol>
+<li>GCC支持1998年发布的最早的ISO C++98，</li>
+<li>GCC支持现代C++标准，包括2011、2014和2017的修订版（也就是C++11、C++14、C++17）</li>
+<li>使用-std=c++xx选项即可指定标准</li>
+<li>在GCC 9.2.0上默认的标准是gnu++14</li>
+<li>程序编译过程主要有4个步骤：预处理（preprocessing）、编译（compilation）、汇编（assembly）、链接（linking）</li>
+<li>GCC支持的可选参数涵盖以上4个步骤</li>
+<li>GCC可以只输出上面4个步骤的任一阶段的输出</li>
+<li>GCC可以关闭或者打开告警</li>
+<li>位置无关代码（PIC,Position Independent code）</li>
+</ol>
+<h1 id="3-常用编译参数"><a href="#3-常用编译参数" class="headerlink" title="3. 常用编译参数"></a>3. 常用编译参数</h1><h2 id="告警相关"><a href="#告警相关" class="headerlink" title="告警相关"></a>告警相关</h2><p>-Werror 所有的告警都输出为错误<br><br>-Wfatal-errors 第一次出错时就立即中断程序编译，不再继续编译和打印更多错误信息<br></p>
+<h2 id="文件生成相关"><a href="#文件生成相关" class="headerlink" title="文件生成相关"></a>文件生成相关</h2><p>-g 生成将操作系统原生支持的debugging信息。GDB可以用此信息进行调试。<br><br>该选项支持不同级别的调试，Level3包括了程序中的宏定义信息<br><br>-D 用于给程序中添加宏定义， -D macro=string，等价于在头文件中定义：#define macro string<br><br>-o file 将输出存储到file中<br><br>-E 在预处理阶段之后停止，不进行编译，直接输出预处理结果。输出cpp程序的预处理结果，便于看清复杂宏定义含义<br><br>-S 在编译后停止，不进行汇编。输出的是汇编代码<br><br>-c 编译或者汇编代码，但不进行链接<br></p>
+<h2 id="链接相关"><a href="#链接相关" class="headerlink" title="链接相关"></a>链接相关</h2><p>-l 小写l，手动链接库文件。比如 -lm 用于手动链接数学库libm.a<br><br>-fPIC 用于生成位置无关代码，通常和-shared一起使用，用于生成动态库文件<br><br>-shared 用于生成动态库文件<br></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>-v 显示版本<br><br>–help 显示帮助信息<br><br>-std 指定使用语言版本<br></p>
+</font>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证 </span>
     </div>
@@ -430,12 +495,12 @@ $1 = 3
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>gcc和gdb基础</p>
+    <p><span class="copy-title">文章标题:</span>g++常见的编译参数</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="linqinghuang">linqinghuang</a></p>
     <p><span class="copy-title">发布时间:</span>2020-03-10, 23:41:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-12, 01:49:11</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/gdb%E5%9F%BA%E7%A1%80/" title="gcc和gdb基础">http://yoursite.com/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/gdb%E5%9F%BA%E7%A1%80/</a>
+    <p><span class="copy-title">最后更新:</span>2020-03-13, 23:52:18</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/g++%E7%BC%96%E8%AF%91%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0/" title="g++常见的编译参数">http://yoursite.com/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/g++%E7%BC%96%E8%AF%91%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E8%AF%91%E5%8F%82%E6%95%B0/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
