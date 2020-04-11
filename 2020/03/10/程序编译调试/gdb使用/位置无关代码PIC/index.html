@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>科学上网 | linqinghuang</title>
-  <meta name="keywords" content=" 科学上网 , v2ray , shadowsocks ">
-  <meta name="description" content="科学上网 | linqinghuang">
+  <title>位置无关代码PIC | linqinghuang</title>
+  <meta name="keywords" content=" gcc , 编译 ">
+  <meta name="description" content="位置无关代码PIC | linqinghuang">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="能力定位perf工具常用于性能优化">
 <meta name="keywords" content="性能优化">
@@ -316,9 +316,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-科学上网/科学上网" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-程序编译调试/gdb使用/位置无关代码PIC" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">科学上网</h1>
+        <h1 class="article-title">位置无关代码PIC</h1>
     
     <div class="article-meta">
         
@@ -333,18 +333,16 @@
         
         <span class="tag">
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color5">科学上网</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color4">gcc</a>
             
-            <a href="javascript:" target="_blank" rel="noopener" class="color1">v2ray</a>
-            
-            <a href="javascript:" target="_blank" rel="noopener" class="color2">shadowsocks</a>
+            <a href="javascript:" target="_blank" rel="noopener" class="color3">编译</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-11 00:15:07'>2019-12-10 00:11</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-14 00:28:05'>2020-03-10 23:41</time>
         
     </div>
     <div class="article-meta">
@@ -377,7 +375,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#科学上网"><span class="toc-text">科学上网</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是科学上网"><span class="toc-text">1 什么是科学上网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-攻防历史"><span class="toc-text">2 攻防历史</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-史前时代"><span class="toc-text">2.1 史前时代</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-攻防战1-0"><span class="toc-text">2.2 攻防战1.0</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3-攻防战2-0"><span class="toc-text">2.3 攻防战2.0</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-什么是v2ray"><span class="toc-text">3 什么是v2ray</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-什么是位置无关代码"><span class="toc-text">1.什么是位置无关代码</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -393,20 +391,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="科学上网"><a href="#科学上网" class="headerlink" title="科学上网"></a>科学上网</h3><h4 id="1-什么是科学上网"><a href="#1-什么是科学上网" class="headerlink" title="1 什么是科学上网"></a>1 什么是科学上网</h4><p>在中国大陆从事计算机行业的，应该对这个概念不会陌生。多少时间浪费在这个上面。这个主要是GFW技术落后以及一些政策方面的原因，无法精准过滤<br>不合法规的内容，从而造成大范围无害中立的内容被屏蔽。科学上网则是用一些方法规避过滤，访问到真正的互联网，用于学习先进科学知识的手段。</p>
-<h4 id="2-攻防历史"><a href="#2-攻防历史" class="headerlink" title="2 攻防历史"></a>2 攻防历史</h4><h5 id="2-1-史前时代"><a href="#2-1-史前时代" class="headerlink" title="2.1 史前时代"></a>2.1 史前时代</h5><p>早期的过滤手段大概是DNS投毒和IP黑名单。本人网龄不算太长，这个阶段具体是如何的不是非常清楚。大概是对特定的IP进行拉黑。比如对谷歌的IP拉黑。</p>
-<h5 id="2-2-攻防战1-0"><a href="#2-2-攻防战1-0" class="headerlink" title="2.2 攻防战1.0"></a>2.2 攻防战1.0</h5><p>类似于12306的验证码攻防，过滤和反过滤也是攻防的双方。IP的封锁，没有挡住攻方多长时间。由于被封的IP是少数，而谷歌在全球有大量的IP，于是攻方<br>很快想出了修改hosts文件来制定IP地址的方法。也就是访问一些澳洲、南美之类的IP。速度虽然慢一些，但是总比无法访问要好得多。</p>
-<p>针对这种情况，防守方很快就想出了策略。这次过滤不再简单针对IP，而是针对每一个出境的网络连接，都进行扫描。HTTP或是HTTPS这种协议只需要简单扫描<br>前几十个字节，就可以得到目标地址。在这种策略下，针对域名，只有不想封的，没有封不掉的。</p>
-<p>直连不可能了，那么就只能考虑代理了。网络代理主要有三种模式：socks、HTTP和VPN。三种模式各有优缺点：</p>
-<p>socks：可以代理TCP和UDP连接，但是数据包是非加密，无法逃过检测<br>http：可以进行tls加密，但是只能代理tcp，无法代理udp<br>vpn：可以代理tcp和udp连接，但是vpn会转发所有数据，在访问不需要出境的网站时，速度和延迟都会下降。</p>
-<p>在这种困境下，Shadowssocks（下称ss）诞生了。这个软件目前在github上面是开源的，能够轻松找到大量的文档，甚至还有一键安装的脚本。服务端和客户端一应俱全。<br>客户端甚至覆盖所有主流平台，包括pc、mac、ios、Android。ss本质上还是socks的加密，但是能够对数据包进行加密，从而绕过检测。而且ss相较于传统的vpn代理，能够<br>判断数据是否需要出境，不需要出境则进行直连。比如访问国内的优酷哔哩哔哩等网站，就进行直连。</p>
-<p>ss在github（<a href="https://github.com/shadowsocks/shadowsocks）" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks）</a> 上十分火爆，star的数量达到了32.2k。但是据传（以下消息不可靠）作者被请喝茶，于是现在只能看到<br>ss在github上面被移除了。</p>
-<h5 id="2-3-攻防战2-0"><a href="#2-3-攻防战2-0" class="headerlink" title="2.3 攻防战2.0"></a>2.3 攻防战2.0</h5><p>从信息学的角度上面来讲，ss协议是几乎完美的一个协议，数据完全随机，无法100%判断出该数据包是否为ss。但从另一方面说，正常的网络访问数据并不是均匀分布的。HTTP<br>和HTTPS流量占据了70%以上。如果一个服务器接受的流量90%甚至100%是杂乱无章的，那它就很可疑了。虽然防守方无法100%确认就是ss，但是从工程策略的角度上讲，并不需要100%。<br>只要近似即可。</p>
-<p>至此，出现了很多自行搭建的VPS直接被封IP的现象，一年50美刀左右的VPS直接作废，对个人来说还是有点肉疼的。到这里，攻方又想出了新策略。既然HTTP和HTTPS是主要数据，随机<br>数据又可疑，那么只要把数据伪装成HTTP或者HTTPS不就好了。</p>
-<p>目前将加密的代理数据伪装成HTTP或者HTTPS的软件有v2ray+ws+tls，或者是使用trojan。这两个新软件目前仍然持续在开发和维护中。单纯的v2ray目前也能被检测到了，需要加上websocket<br>还有tls。trojan目前直接就可以伪装成HTTP或者HTTPS，trojan应该会是趋势。但是trojan目前尚年轻。本文先不介绍。这里重点讲解v2ray+websocket+tls的方式。</p>
-<h4 id="3-什么是v2ray"><a href="#3-什么是v2ray" class="headerlink" title="3 什么是v2ray"></a>3 什么是v2ray</h4><p>v2ray是一个网络代理工具，代码在github上是开源的（<a href="https://github.com/v2ray/v2ray-core）" target="_blank" rel="noopener">https://github.com/v2ray/v2ray-core）</a> ，目前star数已经有26.6k了，代码还在持续更新中。这个star数量，想必你也猜到了，防守方也有检测的策略了。直接裸奔使用v2ray是不安全的。还需要在此基础之上再使用websocket和<br>tls进行伪装，伪装成http，以彻底避免被封IP的命运。</p>
-<p>我家里的宽带是电信200M，这个是我看youtube的8k视频的效果。连接速度101774kbps，哈哈，很惊人吧！<br><img src="https://i.loli.net/2020/03/10/v1QBKxlDRfHVO9I.jpg" alt="youtube_8k.jpg"></p>
+        <font face="楷体">
 
+<h1 id="1-什么是位置无关代码"><a href="#1-什么是位置无关代码" class="headerlink" title="1.什么是位置无关代码"></a>1.什么是位置无关代码</h1></font>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证 </span>
     </div>
@@ -415,12 +402,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>科学上网</p>
+    <p><span class="copy-title">文章标题:</span>位置无关代码PIC</p>
     
     <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" target="_blank" rel="noopener" title="linqinghuang">linqinghuang</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-10, 00:11:00</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-11, 00:15:07</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/10/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" title="科学上网">http://yoursite.com/2019/12/10/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-10, 23:41:00</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-14, 00:28:05</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/%E4%BD%8D%E7%BD%AE%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81PIC/" title="位置无关代码PIC">http://yoursite.com/2020/03/10/%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95/gdb%E4%BD%BF%E7%94%A8/%E4%BD%8D%E7%BD%AE%E6%97%A0%E5%85%B3%E4%BB%A3%E7%A0%81PIC/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
