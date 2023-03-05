@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "main.css",
-	"sourceRoot": "/home/lin/quickstart",
+	"sourceRoot": "/home/lin/hugoblog/linqinghuang",
 	"sources": [
 		"ananke/css/main.css"
 	],
