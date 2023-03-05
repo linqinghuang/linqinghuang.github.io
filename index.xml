@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>linqinghuang的学习空间</title>
-    <link>https://linqinghuang.github.io/</link>
-    <description>Recent content on linqinghuang的学习空间</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sun, 05 Mar 2023 08:56:06 +0000</lastBuildDate><atom:link href="https://linqinghuang.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>B树的研究学习以及C&#43;&#43;代码实现</title>
-      <link>https://linqinghuang.github.io/posts/my-first-post/</link>
-      <pubDate>Sun, 05 Mar 2023 08:56:06 +0000</pubDate>
-      
-      <guid>https://linqinghuang.github.io/posts/my-first-post/</guid>
-      <description>1. B树的由来 首先诞生于机械磁盘的磁盘寻址
-2. B树的定义 参考《算法导论》中的定义
-3. B树的c++代码实现 </description>
-    </item>
-    
-  </channel>
+    <channel>
+        <title>linqinghuang的学习空间</title>
+        <link>https://linqinghuang.github.io/</link>
+        <description>Recent content on linqinghuang的学习空间</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 05 Mar 2023 08:56:06 +0000</lastBuildDate><atom:link href="https://linqinghuang.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>B树的研究学习以及C&#43;&#43;代码实现</title>
+        <link>https://linqinghuang.github.io/posts/my-first-post/</link>
+        <pubDate>Sun, 05 Mar 2023 08:56:06 +0000</pubDate>
+        
+        <guid>https://linqinghuang.github.io/posts/my-first-post/</guid>
+        <description>&lt;h4 id=&#34;1-b树的由来&#34;&gt;1. B树的由来&lt;/h4&gt;
+&lt;p&gt;首先诞生于机械磁盘的磁盘寻址&lt;/p&gt;
+&lt;h4 id=&#34;2-b树的定义&#34;&gt;2. B树的定义&lt;/h4&gt;
+&lt;p&gt;参考《算法导论》中的定义&lt;/p&gt;
+&lt;h4 id=&#34;3-b树的c代码实现&#34;&gt;3. B树的c++代码实现&lt;/h4&gt;
+</description>
+        </item>
+        
+    </channel>
 </rss>
